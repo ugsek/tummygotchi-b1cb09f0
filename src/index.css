@@ -152,7 +152,7 @@
   }
 
   .pixel-button:active {
-    @apply bg-creature-secondary;
+    background-color: hsl(var(--creature-secondary));
     box-shadow: 
       inset 2px 2px 0px hsl(var(--creature-secondary)),
       0px 0px 0px 2px hsl(var(--border));
