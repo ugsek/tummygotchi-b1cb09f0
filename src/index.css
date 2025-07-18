@@ -2,39 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Tummygotchi Pixel Art Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core retro colors */
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 60 100% 75%; /* Bright yellow for text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Tummygotchi creature colors */
+    --creature-primary: 265 85% 58%; /* Purple blob */
+    --creature-secondary: 285 70% 45%; /* Darker purple */
+    --creature-accent: 60 100% 75%; /* Bright yellow accents */
+    --creature-glow: 80 100% 60%; /* Green glow */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 8%; /* Dark card background */
+    --card-foreground: 60 100% 75%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 60 100% 75%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --primary: 265 85% 58%; /* Purple primary */
+    --primary-foreground: 60 100% 75%; /* Yellow text */
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 0 0% 12%; /* Dark button */
+    --secondary-foreground: 60 100% 75%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 60 80% 60%;
+
+    --accent: 80 100% 60%; /* Green accent */
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 60 100% 75%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 265 50% 30%;
+    --input: 0 0% 8%;
+    --ring: 80 100% 60%;
 
     --radius: 0.5rem;
 
@@ -100,6 +107,69 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-pixel;
   }
+}
+
+@layer utilities {
+  /* Pixel art font */
+  .font-pixel {
+    font-family: 'Press Start 2P', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  /* Pixel art effects */
+  .pixel-button {
+    @apply bg-primary text-primary-foreground font-pixel text-sm px-6 py-3;
+    border: 3px solid hsl(var(--creature-accent));
+    image-rendering: pixelated;
+    transition: all 0.1s ease;
+  }
+
+  .pixel-button:hover {
+    @apply bg-accent text-accent-foreground;
+    box-shadow: 0 0 20px hsl(var(--creature-glow) / 0.5);
+  }
+
+  .pixel-creature {
+    image-rendering: pixelated;
+    filter: drop-shadow(0 0 10px hsl(var(--creature-glow) / 0.3));
+  }
+
+  .pixel-text-glow {
+    text-shadow: 0 0 10px hsl(var(--creature-glow) / 0.5);
+  }
+
+  /* Animations */
+  .wiggle {
+    animation: wiggle 2s ease-in-out infinite;
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 1.5s ease-in-out infinite;
+  }
+
+  .blob-bounce {
+    animation: blob-bounce 1s ease-in-out infinite;
+  }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-2deg) scale(1.02); }
+  75% { transform: rotate(2deg) scale(0.98); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 10px hsl(var(--creature-glow) / 0.3));
+  }
+  50% { 
+    filter: drop-shadow(0 0 20px hsl(var(--creature-glow) / 0.7));
+  }
+}
+
+@keyframes blob-bounce {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
