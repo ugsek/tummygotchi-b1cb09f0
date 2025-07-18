@@ -38,29 +38,25 @@ const EmojiTapScreen = ({ onConfirm }: EmojiTapScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-      {/* Title */}
-      <div className="border-4 border-accent bg-card p-6 mb-8 w-full max-w-lg">
-        <h1 className="text-xl font-pixel text-foreground text-center mb-4 pixel-text-glow">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 crt-scanlines pixel-grid-8">
+      {/* Title Window */}
+      <div className="pixel-window bg-card p-8 mb-8 w-full max-w-lg">
+        <h1 className="text-xl font-pixel text-foreground text-center mb-4 pixel-text-outline">
           EMOJI TAP
         </h1>
-        <p className="text-sm font-pixel text-muted-foreground text-center mb-6">
+        <p className="text-sm font-pixel text-muted-foreground text-center mb-6 pixel-text-outline">
           TAP 1-3 FOODS YOU ATE
         </p>
 
-        {/* Food grid */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        {/* Food grid with 8-bit styling */}
+        <div className="grid grid-cols-4 gap-2 mb-6 p-2" style={{ gap: '8px' }}>
           {foodEmojis.map((food, index) => (
             <button
               key={index}
               onClick={() => toggleFood(food.name)}
               className={`
-                w-16 h-16 border-2 flex items-center justify-center text-2xl
-                transition-all duration-200 hover:scale-105
-                ${selectedFoods.includes(food.name) 
-                  ? 'border-accent bg-accent/20 shadow-lg' 
-                  : 'border-muted bg-muted/10 hover:border-accent/50'
-                }
+                pixel-emoji-button flex items-center justify-center
+                ${selectedFoods.includes(food.name) ? 'selected' : ''}
               `}
             >
               {food.emoji}
@@ -68,34 +64,37 @@ const EmojiTapScreen = ({ onConfirm }: EmojiTapScreenProps) => {
           ))}
         </div>
 
-        {/* Custom input */}
+        {/* Custom input with 8-bit styling */}
         <div className="mb-6">
-          <p className="text-sm font-pixel text-muted-foreground mb-2">
+          <p className="text-sm font-pixel text-muted-foreground mb-2 pixel-text-outline">
             OR TYPE WHAT YOU ATE
           </p>
-          <Input
+          <input
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
             placeholder="e.g. pizza, broccoli, cookie"
-            className="font-pixel text-sm bg-input border-2 border-muted focus:border-accent"
+            className="w-full p-2 pixel-input bg-input text-foreground placeholder:text-muted-foreground"
           />
         </div>
 
-        {/* Pet mascot */}
+        {/* 8-bit pet mascot */}
         <div className="flex justify-center mb-6">
-          <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center pixel-creature">
+          <div className="w-16 h-16 bg-primary pixel-creature pixel-float flex items-center justify-center" style={{ 
+            border: '2px solid hsl(var(--creature-accent))',
+            boxShadow: 'inset -2px -2px 0px hsl(var(--creature-secondary)), inset 2px 2px 0px hsl(var(--creature-accent))'
+          }}>
             <div className="text-xs font-pixel text-primary-foreground">🤗</div>
           </div>
         </div>
 
-        {/* Confirm button */}
-        <Button
+        {/* 8-bit confirm button */}
+        <button
           onClick={handleConfirm}
           disabled={selectedFoods.length === 0 && !customInput.trim()}
-          className="w-full h-12 text-lg font-pixel pixel-button"
+          className="w-full h-12 text-lg pixel-button disabled:opacity-50 disabled:cursor-not-allowed"
         >
           CONFIRM
-        </Button>
+        </button>
       </div>
     </div>
   );
