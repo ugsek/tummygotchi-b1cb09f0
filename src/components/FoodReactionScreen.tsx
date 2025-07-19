@@ -146,18 +146,13 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
         <div className="font-pixel text-sm text-accent mb-2 text-center">
           {weirdnessBoost >= 0 ? `DAILY BOOST: +${weirdnessBoost}/3` : "PENALTY: -1 (NOT FOOD!)"}
         </div>
-        <div className="flex justify-between text-xs font-pixel text-muted-foreground mb-2">
-          <span>BEFORE</span>
-          <span>AFTER</span>
+        <div className="flex justify-center text-xs font-pixel text-muted-foreground mb-2">
+          <span>NOW</span>
         </div>
         <div className="relative">
           <Progress 
-            value={currentWeirdness} 
-            className="h-4 bg-muted border-2 border-accent mb-1"
-          />
-          <Progress 
             value={newWeirdness} 
-            className="h-4 bg-muted border-2 border-accent"
+            className="h-6 bg-muted border-2 border-accent"
           />
         </div>
         <p className="font-pixel text-xs text-muted-foreground text-center mt-2">
