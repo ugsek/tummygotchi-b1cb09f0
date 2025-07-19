@@ -27,11 +27,81 @@ serve(async (req) => {
       )
     );
 
-    // Check if inputs are actual foods
-    const commonFoods = ['apple', 'banana', 'orange', 'beef', 'chicken', 'fish', 'rice', 'bread', 'milk', 'cheese', 'egg', 'potato', 'tomato', 'carrot', 'broccoli', 'spinach', 'pasta', 'pizza', 'burger', 'salad', 'soup', 'sandwich', 'yogurt', 'nuts', 'berries', 'avocado', 'quinoa', 'tofu', 'beans', 'lentils'];
+    // Enhanced food database with international foods
+    const commonFoods = [
+      // Basic foods
+      'apple', 'banana', 'orange', 'beef', 'chicken', 'fish', 'rice', 'bread', 'milk', 'cheese', 'egg', 'potato', 'tomato', 'carrot', 'broccoli', 'spinach', 'pasta', 'pizza', 'burger', 'salad', 'soup', 'sandwich', 'yogurt', 'nuts', 'berries', 'avocado', 'quinoa', 'tofu', 'beans', 'lentils',
+      
+      // Japanese foods
+      'ramen', 'sushi', 'natto', 'gyoza', 'tempura', 'udon', 'soba', 'miso', 'tofu', 'edamame', 'onigiri', 'teriyaki', 'yakitori', 'katsu', 'donburi', 'bento', 'dango', 'mochi', 'sake', 'matcha', 'wasabi', 'ginger', 'seaweed', 'nori',
+      
+      // Chinese foods
+      'dumpling', 'wontons', 'chow mein', 'fried rice', 'dim sum', 'kung pao', 'sweet and sour', 'lo mein', 'spring roll', 'hot pot', 'congee', 'baozi', 'mantou',
+      
+      // Indian foods
+      'curry', 'biryani', 'naan', 'chapati', 'dosa', 'samosa', 'tandoori', 'dal', 'paneer', 'masala', 'tikka', 'korma', 'vindaloo', 'lassi', 'chutney',
+      
+      // Mexican foods
+      'tacos', 'burrito', 'quesadilla', 'enchilada', 'guacamole', 'salsa', 'tortilla', 'nachos', 'chimichanga', 'fajitas', 'tamales', 'carnitas',
+      
+      // Italian foods
+      'spaghetti', 'ravioli', 'lasagna', 'risotto', 'gnocchi', 'focaccia', 'bruschetta', 'carbonara', 'pesto', 'marinara', 'prosciutto', 'mozzarella', 'parmesan',
+      
+      // Other international
+      'kimchi', 'bibimbap', 'pad thai', 'pho', 'banh mi', 'falafel', 'hummus', 'tzatziki', 'paella', 'tapas', 'pierogi', 'schnitzel', 'croissant', 'baguette'
+    ];
+
+    // Function to check if food matches with misspelling tolerance
+    const foodMatches = (userFood, realFood) => {
+      const user = userFood.toLowerCase().trim();
+      const real = realFood.toLowerCase();
+      
+      // Exact match
+      if (user === real) return true;
+      
+      // Contains match
+      if (user.includes(real) || real.includes(user)) return true;
+      
+      // Simple misspelling tolerance (Levenshtein-like)
+      const getEditDistance = (a, b) => {
+        const matrix = [];
+        for (let i = 0; i <= b.length; i++) {
+          matrix[i] = [i];
+        }
+        for (let j = 0; j <= a.length; j++) {
+          matrix[0][j] = j;
+        }
+        for (let i = 1; i <= b.length; i++) {
+          for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) === a.charAt(j - 1)) {
+              matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+              matrix[i][j] = Math.min(
+                matrix[i - 1][j - 1] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j] + 1
+              );
+            }
+          }
+        }
+        return matrix[b.length][a.length];
+      };
+      
+      // Allow 1-2 character differences for words longer than 4 characters
+      if (real.length > 4) {
+        const distance = getEditDistance(user, real);
+        return distance <= 2;
+      } else if (real.length > 2) {
+        const distance = getEditDistance(user, real);
+        return distance <= 1;
+      }
+      
+      return false;
+    };
+
     const areActualFoods = foods.some(food => 
       commonFoods.some(realFood => 
-        food.toLowerCase().includes(realFood.toLowerCase())
+        foodMatches(food, realFood)
       )
     );
 
