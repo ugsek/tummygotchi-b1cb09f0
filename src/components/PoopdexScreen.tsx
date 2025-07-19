@@ -75,9 +75,9 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
         })}
       </div>
 
-      {/* Selected poop info */}
+      {/* Selected poop info - STICKY AT TOP */}
       {selectedPoop && (
-        <div className="border-2 border-accent bg-card p-4 mb-6">
+        <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-2 border-accent bg-card p-4 mb-4 z-10">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 flex items-center justify-center text-3xl">
               {selectedPoop.emoji}

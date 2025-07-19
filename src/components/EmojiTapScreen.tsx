@@ -126,25 +126,59 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
         <p className="text-sm font-pixel text-accent mb-3">
           TAP UP TO 3 FOODS!
         </p>
-        
-        {/* Selected foods display - compact */}
-        <div className="flex justify-center gap-2 mb-4 min-h-[3rem] items-center flex-wrap">
-          {selectedFoods.length > 0 ? (
-            selectedFoods.map((food, index) => {
-              const foodItem = allFoods.find(f => f.name === food);
-              return (
-                <div key={index} className="flex flex-col items-center bg-accent/20 border-2 border-accent rounded-lg p-2 animate-scale-in">
-                  <div className="text-2xl mb-1">{foodItem?.emoji || '🍽️'}</div>
-                  <div className="text-xs font-pixel text-accent">{food.toUpperCase()}</div>
-                </div>
-              );
-            })
-          ) : (
-            <p className="text-xs font-pixel text-muted-foreground flex items-center gap-2">
-              👆 TAP FOODS BELOW TO SELECT THEM
-            </p>
-          )}
+      </div>
+
+      {/* Camera and Input Options - NOW AT TOP */}
+      {onPhotoTaken && (
+        <div className="mb-3 max-w-md mx-auto w-full">
+          <div className="text-center mb-2">
+            <span className="font-pixel text-xs text-muted-foreground">
+              📸 OR TAKE A PHOTO
+            </span>
+          </div>
+          <Button
+            onClick={startCamera}
+            className="w-full h-10 font-pixel pixel-button flex items-center justify-center gap-2 text-sm"
+            variant="outline"
+          >
+            <Camera className="w-4 h-4" />
+            SNAP MY FOOD!
+          </Button>
         </div>
+      )}
+
+      {/* Simple custom input - NOW AT TOP */}
+      <div className="mb-4 max-w-md mx-auto w-full">
+        <div className="text-center mb-2">
+          <span className="font-pixel text-xs text-muted-foreground">
+            ✏️ OR TYPE SOMETHING ELSE
+          </span>
+        </div>
+        <Input
+          value={customInput}
+          onChange={(e) => setCustomInput(e.target.value)}
+          placeholder="pizza, ice cream, etc."
+          className="font-pixel text-center bg-background border-2 border-muted focus:border-accent h-10 text-sm"
+        />
+      </div>
+        
+      {/* Selected foods display - compact */}
+      <div className="flex justify-center gap-2 mb-4 min-h-[3rem] items-center flex-wrap">
+        {selectedFoods.length > 0 ? (
+          selectedFoods.map((food, index) => {
+            const foodItem = allFoods.find(f => f.name === food);
+            return (
+              <div key={index} className="flex flex-col items-center bg-accent/20 border-2 border-accent rounded-lg p-2 animate-scale-in">
+                <div className="text-2xl mb-1">{foodItem?.emoji || '🍽️'}</div>
+                <div className="text-xs font-pixel text-accent">{food.toUpperCase()}</div>
+              </div>
+            );
+          })
+        ) : (
+          <p className="text-xs font-pixel text-muted-foreground flex items-center gap-2">
+            👆 TAP FOODS BELOW TO SELECT THEM
+          </p>
+        )}
       </div>
 
       {/* Compact Food Grid - All categories in one view */}
@@ -239,39 +273,6 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
         </div>
       </div>
 
-      {/* Camera and Input Options - Compact */}
-      {onPhotoTaken && (
-        <div className="mb-3 max-w-md mx-auto w-full">
-          <div className="text-center mb-2">
-            <span className="font-pixel text-xs text-muted-foreground">
-              📸 OR TAKE A PHOTO
-            </span>
-          </div>
-          <Button
-            onClick={startCamera}
-            className="w-full h-10 font-pixel pixel-button flex items-center justify-center gap-2 text-sm"
-            variant="outline"
-          >
-            <Camera className="w-4 h-4" />
-            SNAP MY FOOD!
-          </Button>
-        </div>
-      )}
-
-      {/* Simple custom input - Compact */}
-      <div className="mb-4 max-w-md mx-auto w-full">
-        <div className="text-center mb-2">
-          <span className="font-pixel text-xs text-muted-foreground">
-            ✏️ OR TYPE SOMETHING ELSE
-          </span>
-        </div>
-        <Input
-          value={customInput}
-          onChange={(e) => setCustomInput(e.target.value)}
-          placeholder="pizza, ice cream, etc."
-          className="font-pixel text-center bg-background border-2 border-muted focus:border-accent h-10 text-sm"
-        />
-      </div>
 
       {/* Sticky Confirm Button */}
       <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t border-accent/20">
