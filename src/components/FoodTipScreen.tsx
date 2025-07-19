@@ -1,11 +1,49 @@
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { generateFoodTip } from "@/lib/generateFoodTip";
+
+interface FoodTip {
+  emoji: string;
+  title: string;
+  description: string;
+}
 
 interface FoodTipScreenProps {
   petName: string;
+  foods: string[];
+  userGoal: string;
+  poopType?: string;
   onBackToGame: () => void;
 }
 
-const FoodTipScreen = ({ petName, onBackToGame }: FoodTipScreenProps) => {
+const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackToGame }: FoodTipScreenProps) => {
+  const [tips, setTips] = useState<FoodTip[]>([]);
+  const [encouragement, setEncouragement] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTips = async () => {
+      try {
+        setLoading(true);
+        const response = await generateFoodTip(foods, userGoal, poopType);
+        setTips(response.tips || []);
+        setEncouragement(response.encouragement || "THESE FOODS WILL HELP YOU UNLOCK RARE POOP TYPES!");
+      } catch (error) {
+        console.error('Failed to generate tips:', error);
+        // Fallback tips
+        setTips([
+          { emoji: "🥦", title: "ADD MORE FIBER!", description: "Try broccoli, beans, or whole grains" },
+          { emoji: "🍇", title: "LESS SUGAR!", description: "Try fruit instead of candy" },
+          { emoji: "🥚", title: "MORE PROTEIN!", description: "Add eggs, tofu, or lean meat" }
+        ]);
+        setEncouragement("THESE FOODS WILL HELP YOU UNLOCK RARE POOP TYPES!");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTips();
+  }, [foods, userGoal, poopType]);
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
       {/* Title */}
@@ -58,41 +96,31 @@ const FoodTipScreen = ({ petName, onBackToGame }: FoodTipScreenProps) => {
 
       {/* Food tips */}
       <div className="space-y-4 w-full max-w-md mb-8">
-        <div className="border-2 border-accent bg-accent/10 p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-2xl">🥦</span>
-            <h3 className="text-lg font-pixel text-foreground">ADD MORE FIBER!</h3>
+        {loading ? (
+          <div className="border-2 border-accent bg-accent/10 p-4 text-center">
+            <p className="text-sm font-pixel text-foreground">
+              ANALYZING YOUR MEAL... 🧠
+            </p>
           </div>
-          <p className="text-sm font-pixel text-muted-foreground">
-            Try broccoli, beans, or whole grains
-          </p>
-        </div>
-
-        <div className="border-2 border-accent bg-accent/10 p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-2xl">🍇</span>
-            <h3 className="text-lg font-pixel text-foreground">LESS SUGAR!</h3>
-          </div>
-          <p className="text-sm font-pixel text-muted-foreground">
-            Try fruit instead of candy
-          </p>
-        </div>
-
-        <div className="border-2 border-accent bg-accent/10 p-4">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-2xl">🥚</span>
-            <h3 className="text-lg font-pixel text-foreground">MORE PROTEIN!</h3>
-          </div>
-          <p className="text-sm font-pixel text-muted-foreground">
-            Add eggs, tofu, or lean meat
-          </p>
-        </div>
+        ) : (
+          tips.map((tip, index) => (
+            <div key={index} className="border-2 border-accent bg-accent/10 p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-2xl">{tip.emoji}</span>
+                <h3 className="text-lg font-pixel text-foreground">{tip.title}</h3>
+              </div>
+              <p className="text-sm font-pixel text-muted-foreground">
+                {tip.description}
+              </p>
+            </div>
+          ))
+        )}
       </div>
 
       {/* Bottom message */}
       <div className="border-2 border-accent bg-card p-4 mb-8 w-full max-w-md">
         <p className="text-sm font-pixel text-foreground text-center">
-          THESE FOODS WILL HELP YOU UNLOCK RARE POOP TYPES!
+          {encouragement}
         </p>
       </div>
 

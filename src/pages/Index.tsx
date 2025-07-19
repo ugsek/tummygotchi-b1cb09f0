@@ -25,6 +25,8 @@ const Index = () => {
   const [petName, setPetName] = useState<string>('');
   const [capturedImage, setCapturedImage] = useState<string>('');
   const [selectedFoods, setSelectedFoods] = useState<string[]>([]);
+  const [lastPoopType, setLastPoopType] = useState<string>('');
+  const [showFoodTipAfterPoop, setShowFoodTipAfterPoop] = useState<boolean>(false);
 
   const handleStart = () => {
     setGameState('goal-selection');
@@ -64,6 +66,7 @@ const Index = () => {
 
   const handleEmojiConfirm = (foods: string[]) => {
     setSelectedFoods(foods);
+    setShowFoodTipAfterPoop(true); // Show food tip after this flow
     setGameState('ready-to-poop');
   };
 
@@ -74,6 +77,7 @@ const Index = () => {
 
   const handleAnalysisComplete = (foods: string[]) => {
     setSelectedFoods(foods);
+    setShowFoodTipAfterPoop(true); // Show food tip after this flow
     setGameState('ready-to-poop');
   };
 
@@ -82,7 +86,13 @@ const Index = () => {
   };
 
   const handlePoopComplete = (poopType: string) => {
-    setGameState('new-poop-unlocked');
+    setLastPoopType(poopType);
+    if (showFoodTipAfterPoop) {
+      setGameState('food-tip');
+      setShowFoodTipAfterPoop(false);
+    } else {
+      setGameState('new-poop-unlocked');
+    }
   };
 
   const handleAddToPoopdex = () => {
@@ -200,6 +210,9 @@ const Index = () => {
       {gameState === 'food-tip' && (
         <FoodTipScreen 
           petName={petName}
+          foods={selectedFoods}
+          userGoal={selectedGoal}
+          poopType={lastPoopType}
           onBackToGame={handleBackToGame}
         />
       )}
