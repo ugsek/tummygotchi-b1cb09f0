@@ -1,17 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { Home, Book, Utensils } from "lucide-react";
+import { Home, Book, MessageCircle } from "lucide-react";
 
 interface BottomNavigationProps {
   onNavigateToHome: () => void;
   onNavigateToPoopdex: () => void;
-  onNavigateToFeed: () => void;
+  onNavigateToChat: () => void;
   currentState: string;
 }
 
 const BottomNavigation = ({ 
   onNavigateToHome, 
   onNavigateToPoopdex, 
-  onNavigateToFeed,
+  onNavigateToChat,
   currentState 
 }: BottomNavigationProps) => {
   // Don't show navigation during onboarding or certain flow states
@@ -31,12 +31,12 @@ const BottomNavigation = ({
     <div className="fixed bottom-0 left-0 right-0 bg-background border-t-2 border-accent p-4">
       <div className="flex justify-around items-center max-w-md mx-auto">
         <Button
-          variant={currentState.includes('food') || currentState.includes('emoji') || currentState.includes('photo') ? 'default' : 'outline'}
+          variant={currentState === 'chat' ? 'default' : 'outline'}
           size="sm"
-          onClick={onNavigateToFeed}
+          onClick={onNavigateToChat}
           className="flex items-center justify-center h-12 w-12 rounded-xl"
         >
-          <Utensils className="h-5 w-5" />
+          <MessageCircle className="h-5 w-5" />
         </Button>
         
         <Button

@@ -17,10 +17,11 @@ import PoopdexScreen from "@/components/PoopdexScreen";
 import BottomNavigation from "@/components/BottomNavigation";
 import FoodReactionScreen from "@/components/FoodReactionScreen";
 import PlopScreen from "@/components/PlopScreen";
+import ChatScreen from "@/components/ChatScreen";
 import { generatePoopFromCombination } from "@/lib/poopGenerator";
 import { getPoopById } from "@/data/poopDatabase";
 
-type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex';
+type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex' | 'chat';
 
 const Index = () => {
   const [gameState, setGameState] = useState<GameState>('welcome');
@@ -184,6 +185,10 @@ const Index = () => {
     setGameState('emoji-tap');
   };
 
+  const handleNavigateToChat = () => {
+    setGameState('chat');
+  };
+
   return (
     <div className="min-h-screen bg-background pb-20">
       {gameState === 'welcome' && (
@@ -303,12 +308,20 @@ const Index = () => {
       {gameState === 'poopdex' && (
         <PoopdexScreen onBackToGame={handleBackToGame} unlockedPoops={unlockedPoops} />
       )}
+
+      {gameState === 'chat' && (
+        <ChatScreen 
+          petName={petName}
+          userGoal={selectedGoal}
+          onBackToGame={handleBackToGame}
+        />
+      )}
       
       <BottomNavigation
         currentState={gameState}
         onNavigateToHome={handleNavigateToHome}
         onNavigateToPoopdex={handleNavigateToPoopdex}
-        onNavigateToFeed={handleNavigateToFeed}
+        onNavigateToChat={handleNavigateToChat}
       />
     </div>
   );
