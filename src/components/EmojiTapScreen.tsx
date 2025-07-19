@@ -119,52 +119,52 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   return (
     <div className="min-h-screen bg-background flex flex-col p-4 pb-28">
       {/* Simple Header - Mobile optimized */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-pixel text-foreground mb-2 pixel-text-glow">
+      <div className="text-center mb-4">
+        <h1 className="text-2xl font-pixel text-foreground mb-1 pixel-text-glow">
           🍽️ WHAT DID YOU EAT? 🍽️
         </h1>
-        <p className="text-lg font-pixel text-accent mb-4">
+        <p className="text-sm font-pixel text-accent mb-3">
           TAP UP TO 3 FOODS!
         </p>
         
-        {/* Selected foods display - bigger and more visual */}
-        <div className="flex justify-center gap-3 mb-6 min-h-[4rem] items-center flex-wrap">
+        {/* Selected foods display - compact */}
+        <div className="flex justify-center gap-2 mb-4 min-h-[3rem] items-center flex-wrap">
           {selectedFoods.length > 0 ? (
             selectedFoods.map((food, index) => {
               const foodItem = allFoods.find(f => f.name === food);
               return (
-                <div key={index} className="flex flex-col items-center bg-accent/20 border-2 border-accent rounded-lg p-3 animate-scale-in">
-                  <div className="text-3xl mb-1">{foodItem?.emoji || '🍽️'}</div>
+                <div key={index} className="flex flex-col items-center bg-accent/20 border-2 border-accent rounded-lg p-2 animate-scale-in">
+                  <div className="text-2xl mb-1">{foodItem?.emoji || '🍽️'}</div>
                   <div className="text-xs font-pixel text-accent">{food.toUpperCase()}</div>
                 </div>
               );
             })
           ) : (
-            <p className="text-sm font-pixel text-muted-foreground flex items-center gap-2">
+            <p className="text-xs font-pixel text-muted-foreground flex items-center gap-2">
               👆 TAP FOODS BELOW TO SELECT THEM
             </p>
           )}
         </div>
       </div>
 
-      {/* Simple Food Grid - No categories, just visual grouping by color */}
-      <div className="flex-1 mb-6">
+      {/* Compact Food Grid - All categories in one view */}
+      <div className="flex-1 mb-4">
         <div className="max-w-lg mx-auto">
-          {/* Healthy Foods Section */}
-          <div className="mb-6">
-            <div className="text-center mb-3">
-              <span className="font-pixel text-sm bg-green-500/20 text-green-400 px-3 py-1 rounded-full">
-                🌱 HEALTHY FOODS 🌱
+          {/* Healthy Foods Section - Compact */}
+          <div className="mb-3">
+            <div className="text-center mb-2">
+              <span className="font-pixel text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full">
+                🌱 HEALTHY 🌱
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-6 gap-1">
               {allFoods.filter(food => food.category === 'healthy').map((food, index) => (
                 <button
                   key={index}
                   onClick={() => toggleFood(food.name)}
                   disabled={selectedFoods.length >= 3 && !selectedFoods.includes(food.name)}
                   className={`
-                    aspect-square border-2 flex flex-col items-center justify-center p-2 transition-all rounded-lg
+                    aspect-square border-2 flex items-center justify-center p-1 transition-all rounded-lg
                     ${selectedFoods.includes(food.name) 
                       ? 'border-green-400 bg-green-400/30 scale-110 shadow-lg shadow-green-400/50' 
                       : selectedFoods.length >= 3 
@@ -173,27 +173,27 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
                     }
                   `}
                 >
-                  <div className="text-2xl mb-1">{food.emoji}</div>
+                  <div className="text-lg">{food.emoji}</div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Filling Foods Section */}
-          <div className="mb-6">
-            <div className="text-center mb-3">
-              <span className="font-pixel text-sm bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">
-                💪 FILLING FOODS 💪
+          {/* Filling Foods Section - Compact */}
+          <div className="mb-3">
+            <div className="text-center mb-2">
+              <span className="font-pixel text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full">
+                💪 FILLING 💪
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-6 gap-1">
               {allFoods.filter(food => food.category === 'filling').map((food, index) => (
                 <button
                   key={index}
                   onClick={() => toggleFood(food.name)}
                   disabled={selectedFoods.length >= 3 && !selectedFoods.includes(food.name)}
                   className={`
-                    aspect-square border-2 flex flex-col items-center justify-center p-2 transition-all rounded-lg
+                    aspect-square border-2 flex items-center justify-center p-1 transition-all rounded-lg
                     ${selectedFoods.includes(food.name) 
                       ? 'border-blue-400 bg-blue-400/30 scale-110 shadow-lg shadow-blue-400/50' 
                       : selectedFoods.length >= 3 
@@ -202,27 +202,27 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
                     }
                   `}
                 >
-                  <div className="text-2xl mb-1">{food.emoji}</div>
+                  <div className="text-lg">{food.emoji}</div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Treats Section */}
-          <div className="mb-6">
-            <div className="text-center mb-3">
-              <span className="font-pixel text-sm bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full">
+          {/* Treats Section - Compact */}
+          <div className="mb-3">
+            <div className="text-center mb-2">
+              <span className="font-pixel text-xs bg-purple-500/20 text-purple-400 px-2 py-1 rounded-full">
                 🍭 TREATS 🍭
               </span>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-6 gap-1">
               {allFoods.filter(food => food.category === 'treats').map((food, index) => (
                 <button
                   key={index}
                   onClick={() => toggleFood(food.name)}
                   disabled={selectedFoods.length >= 3 && !selectedFoods.includes(food.name)}
                   className={`
-                    aspect-square border-2 flex flex-col items-center justify-center p-2 transition-all rounded-lg
+                    aspect-square border-2 flex items-center justify-center p-1 transition-all rounded-lg
                     ${selectedFoods.includes(food.name) 
                       ? 'border-purple-400 bg-purple-400/30 scale-110 shadow-lg shadow-purple-400/50' 
                       : selectedFoods.length >= 3 
@@ -231,7 +231,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
                     }
                   `}
                 >
-                  <div className="text-2xl mb-1">{food.emoji}</div>
+                  <div className="text-lg">{food.emoji}</div>
                 </button>
               ))}
             </div>
@@ -239,17 +239,17 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
         </div>
       </div>
 
-      {/* Camera and Input Options */}
+      {/* Camera and Input Options - Compact */}
       {onPhotoTaken && (
-        <div className="mb-4 max-w-md mx-auto w-full">
-          <div className="text-center mb-3">
-            <span className="font-pixel text-sm text-muted-foreground">
+        <div className="mb-3 max-w-md mx-auto w-full">
+          <div className="text-center mb-2">
+            <span className="font-pixel text-xs text-muted-foreground">
               📸 OR TAKE A PHOTO
             </span>
           </div>
           <Button
             onClick={startCamera}
-            className="w-full h-12 font-pixel pixel-button flex items-center justify-center gap-2"
+            className="w-full h-10 font-pixel pixel-button flex items-center justify-center gap-2 text-sm"
             variant="outline"
           >
             <Camera className="w-4 h-4" />
@@ -258,10 +258,10 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
         </div>
       )}
 
-      {/* Simple custom input */}
-      <div className="mb-6 max-w-md mx-auto w-full">
+      {/* Simple custom input - Compact */}
+      <div className="mb-4 max-w-md mx-auto w-full">
         <div className="text-center mb-2">
-          <span className="font-pixel text-sm text-muted-foreground">
+          <span className="font-pixel text-xs text-muted-foreground">
             ✏️ OR TYPE SOMETHING ELSE
           </span>
         </div>
@@ -269,7 +269,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
           value={customInput}
           onChange={(e) => setCustomInput(e.target.value)}
           placeholder="pizza, ice cream, etc."
-          className="font-pixel text-center bg-background border-2 border-muted focus:border-accent"
+          className="font-pixel text-center bg-background border-2 border-muted focus:border-accent h-10 text-sm"
         />
       </div>
 
