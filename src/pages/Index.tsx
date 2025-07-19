@@ -54,7 +54,10 @@ const Index = () => {
     setGameState('meet-pet');
   };
 
-  const handleContinueToGame = () => {
+  const handleContinueToGame = (customName?: string) => {
+    if (customName) {
+      setPetName(customName);
+    }
     setGameState('game');
   };
 

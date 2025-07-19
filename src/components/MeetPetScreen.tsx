@@ -1,20 +1,68 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface MeetPetScreenProps {
   petName: string;
-  onContinue: () => void;
+  onContinue: (customName?: string) => void;
 }
 
 const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
+  const [customName, setCustomName] = useState("");
+  const [isCustomizing, setIsCustomizing] = useState(false);
+
+  const handleContinue = () => {
+    const finalName = customName.trim() || petName;
+    onContinue(finalName);
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       <div className="text-center mb-8">
         <h2 className="font-pixel text-3xl text-accent mb-8 pixel-text-glow">
           MEET
         </h2>
-        <h1 className="font-pixel text-4xl text-primary mb-8 pixel-text-glow">
-          {petName.toUpperCase()}!
+        <h1 className="font-pixel text-4xl text-primary mb-4 pixel-text-glow">
+          {(customName.trim() || petName).toUpperCase()}!
         </h1>
+        
+        {/* Custom name input */}
+        {!isCustomizing ? (
+          <Button
+            onClick={() => setIsCustomizing(true)}
+            variant="outline"
+            className="mb-8 font-pixel text-sm"
+          >
+            CHANGE NAME
+          </Button>
+        ) : (
+          <div className="mb-8 max-w-xs mx-auto">
+            <Input
+              value={customName}
+              onChange={(e) => setCustomName(e.target.value)}
+              placeholder={petName}
+              className="font-pixel text-center mb-4 bg-background border-2 border-accent focus:border-primary"
+              maxLength={12}
+            />
+            <div className="flex gap-2">
+              <Button
+                onClick={() => {
+                  setCustomName("");
+                  setIsCustomizing(false);
+                }}
+                variant="outline"
+                className="font-pixel text-xs flex-1"
+              >
+                CANCEL
+              </Button>
+              <Button
+                onClick={() => setIsCustomizing(false)}
+                className="font-pixel text-xs flex-1"
+              >
+                SAVE
+              </Button>
+            </div>
+          </div>
+        )}
         
         {/* Pet creature */}
         <div className="w-48 h-48 mx-auto mb-8 relative">
@@ -63,7 +111,7 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
       </div>
 
       <Button 
-        onClick={onContinue}
+        onClick={handleContinue}
         className="pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
       >
         TIME TO FEED YOUR BELLY!
