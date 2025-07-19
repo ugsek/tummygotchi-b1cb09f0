@@ -8,117 +8,59 @@ interface EmojiTapScreenProps {
   onPhotoTaken?: (imageData: string) => void;
 }
 
-const foodCategories = [
-  {
-    name: "FRUITS",
-    color: "text-green-400",
-    foods: [
-      { emoji: "🍎", name: "apple" },
-      { emoji: "🍌", name: "banana" },
-      { emoji: "🍊", name: "orange" },
-      { emoji: "🍓", name: "strawberries" },
-      { emoji: "🫐", name: "blueberries" },
-      { emoji: "🍇", name: "grapes" },
-    ]
-  },
-  {
-    name: "VEGETABLES",
-    color: "text-emerald-400", 
-    foods: [
-      { emoji: "🥦", name: "broccoli" },
-      { emoji: "🥕", name: "carrot" },
-      { emoji: "🥬", name: "spinach" },
-      { emoji: "🍅", name: "tomato" },
-      { emoji: "🌶️", name: "peppers" },
-      { emoji: "🥒", name: "cucumber" },
-    ]
-  },
-  {
-    name: "PROTEINS", 
-    color: "text-red-400",
-    foods: [
-      { emoji: "🍗", name: "chicken" },
-      { emoji: "🥩", name: "beef" },
-      { emoji: "🐟", name: "fish" },
-      { emoji: "🥚", name: "eggs" },
-      { emoji: "🫘", name: "beans" },
-      { emoji: "🧀", name: "cheese" },
-    ]
-  },
-  {
-    name: "GRAINS & CARBS",
-    color: "text-amber-400",
-    foods: [
-      { emoji: "🍞", name: "bread" },
-      { emoji: "🍝", name: "pasta" },
-      { emoji: "🍚", name: "rice" },
-      { emoji: "🥖", name: "quinoa" },
-      { emoji: "🥣", name: "oatmeal" },
-      { emoji: "🥯", name: "bagel" },
-    ]
-  },
-  {
-    name: "DAIRY",
-    color: "text-blue-400", 
-    foods: [
-      { emoji: "🥛", name: "milk" },
-      { emoji: "🧈", name: "yogurt" },
-      { emoji: "🧀", name: "cheese" },
-      { emoji: "🍦", name: "ice_cream" },
-    ]
-  },
-  {
-    name: "SNACKS & TREATS",
-    color: "text-purple-400",
-    foods: [
-      { emoji: "🍪", name: "cookies" },
-      { emoji: "🍫", name: "chocolate" },
-      { emoji: "🍰", name: "cake" },
-      { emoji: "🍩", name: "donut" },
-      { emoji: "🍿", name: "popcorn" },
-      { emoji: "🥜", name: "nuts" },
-    ]
-  },
-  {
-    name: "FAST FOOD",
-    color: "text-orange-400",
-    foods: [
-      { emoji: "🍕", name: "pizza" },
-      { emoji: "🍔", name: "burger" },
-      { emoji: "🍟", name: "fries" },
-      { emoji: "🌮", name: "tacos" },
-      { emoji: "🌭", name: "hot_dog" },
-      { emoji: "🥪", name: "sandwich" },
-    ]
-  },
-  {
-    name: "BEVERAGES",
-    color: "text-cyan-400",
-    foods: [
-      { emoji: "💧", name: "water" },
-      { emoji: "🥤", name: "soda" },
-      { emoji: "🧃", name: "juice" },
-      { emoji: "☕", name: "coffee" },
-      { emoji: "🫖", name: "tea" },
-      { emoji: "🥤", name: "smoothie" },
-    ]
-  }
+const allFoods = [
+  // HEALTHY (Green background)
+  { emoji: "🍎", name: "apple", category: "healthy" },
+  { emoji: "🍌", name: "banana", category: "healthy" },
+  { emoji: "🍊", name: "orange", category: "healthy" },
+  { emoji: "🍓", name: "berries", category: "healthy" },
+  { emoji: "🥦", name: "broccoli", category: "healthy" },
+  { emoji: "🥕", name: "carrot", category: "healthy" },
+  { emoji: "🥬", name: "salad", category: "healthy" },
+  { emoji: "🐟", name: "fish", category: "healthy" },
+  { emoji: "🥚", name: "eggs", category: "healthy" },
+  { emoji: "🥛", name: "milk", category: "healthy" },
+  { emoji: "🧀", name: "cheese", category: "healthy" },
+  { emoji: "💧", name: "water", category: "healthy" },
+
+  // FILLING (Blue background)
+  { emoji: "🍞", name: "bread", category: "filling" },
+  { emoji: "🍝", name: "pasta", category: "filling" },
+  { emoji: "🍚", name: "rice", category: "filling" },
+  { emoji: "🥔", name: "potato", category: "filling" },
+  { emoji: "🍗", name: "chicken", category: "filling" },
+  { emoji: "🥩", name: "meat", category: "filling" },
+  { emoji: "🫘", name: "beans", category: "filling" },
+  { emoji: "🥜", name: "nuts", category: "filling" },
+
+  // TREATS (Purple background)
+  { emoji: "🍕", name: "pizza", category: "treats" },
+  { emoji: "🍔", name: "burger", category: "treats" },
+  { emoji: "🍟", name: "fries", category: "treats" },
+  { emoji: "🍪", name: "cookies", category: "treats" },
+  { emoji: "🍫", name: "chocolate", category: "treats" },
+  { emoji: "🍰", name: "cake", category: "treats" },
+  { emoji: "🍩", name: "donut", category: "treats" },
+  { emoji: "🥤", name: "soda", category: "treats" },
+  { emoji: "🍦", name: "ice cream", category: "treats" },
 ];
 
 const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   const [selectedFoods, setSelectedFoods] = useState<string[]>([]);
   const [customInput, setCustomInput] = useState("");
-  const [activeCategory, setActiveCategory] = useState(0);
-  const [showCamera, setShowCamera] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [showCamera, setShowCamera] = useState(false);
 
   const toggleFood = (foodName: string) => {
-    setSelectedFoods(prev => 
-      prev.includes(foodName) 
-        ? prev.filter(f => f !== foodName)
-        : [...prev, foodName]
-    );
+    setSelectedFoods(prev => {
+      if (prev.includes(foodName)) {
+        return prev.filter(f => f !== foodName);
+      } else if (prev.length < 3) { // Limit to 3 foods max
+        return [...prev, foodName];
+      }
+      return prev; // Don't add if already 3 selected
+    });
   };
 
   const handleConfirm = () => {
@@ -176,118 +118,176 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col p-4">
-      {/* Header */}
+      {/* Simple Header */}
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-pixel text-foreground mb-2 pixel-text-glow">
-          EMOJI TAP
+        <h1 className="text-3xl font-pixel text-foreground mb-2 pixel-text-glow">
+          🍽️ WHAT DID YOU EAT? 🍽️
         </h1>
-        <p className="text-sm font-pixel text-muted-foreground mb-4">
-          TAP 1-3 FOODS YOU ATE TODAY
+        <p className="text-lg font-pixel text-accent mb-4">
+          TAP UP TO 3 FOODS!
         </p>
         
-        {/* Selected foods display */}
-        <div className="flex justify-center gap-2 mb-4 min-h-[3rem] items-center flex-wrap">
+        {/* Selected foods display - bigger and more visual */}
+        <div className="flex justify-center gap-3 mb-6 min-h-[4rem] items-center flex-wrap">
           {selectedFoods.length > 0 ? (
-            selectedFoods.map((food, index) => (
-              <div key={index} className="px-3 py-1 bg-accent/20 border border-accent rounded font-pixel text-sm text-accent">
-                {food.toUpperCase()}
-              </div>
-            ))
+            selectedFoods.map((food, index) => {
+              const foodItem = allFoods.find(f => f.name === food);
+              return (
+                <div key={index} className="flex flex-col items-center bg-accent/20 border-2 border-accent rounded-lg p-3 animate-scale-in">
+                  <div className="text-3xl mb-1">{foodItem?.emoji || '🍽️'}</div>
+                  <div className="text-xs font-pixel text-accent">{food.toUpperCase()}</div>
+                </div>
+              );
+            })
           ) : (
-            <p className="text-xs font-pixel text-muted-foreground">
-              Select foods from categories below
+            <p className="text-sm font-pixel text-muted-foreground flex items-center gap-2">
+              👆 TAP FOODS BELOW TO SELECT THEM
             </p>
           )}
         </div>
       </div>
 
-      {/* Category tabs */}
-      <div className="flex overflow-x-auto gap-2 mb-4 pb-2">
-        {foodCategories.map((category, index) => (
-          <button
-            key={index}
-            onClick={() => setActiveCategory(index)}
-            className={`
-              px-4 py-2 font-pixel text-xs whitespace-nowrap border-2 transition-all
-              ${activeCategory === index 
-                ? 'border-accent bg-accent/20 text-accent' 
-                : 'border-muted bg-muted/10 text-muted-foreground hover:border-accent/50'
-              }
-            `}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Active category foods */}
+      {/* Simple Food Grid - No categories, just visual grouping by color */}
       <div className="flex-1 mb-6">
-        <div className={`text-center mb-4 font-pixel text-sm ${foodCategories[activeCategory].color}`}>
-          {foodCategories[activeCategory].name}
-        </div>
-        
-        <div className="grid grid-cols-3 gap-3 max-w-md mx-auto">
-          {foodCategories[activeCategory].foods.map((food, index) => (
-            <button
-              key={index}
-              onClick={() => toggleFood(food.name)}
-              className={`
-                aspect-square border-2 flex flex-col items-center justify-center p-3 transition-all
-                ${selectedFoods.includes(food.name) 
-                  ? 'border-accent bg-accent/20 scale-105 shadow-lg' 
-                  : 'border-muted bg-muted/10 hover:border-accent/50 hover:scale-102'
-                }
-              `}
-            >
-              <div className="text-3xl mb-1">{food.emoji}</div>
-              <div className="text-xs font-pixel text-center leading-tight">
-                {food.name.replace('_', ' ').toUpperCase()}
-              </div>
-            </button>
-          ))}
+        <div className="max-w-lg mx-auto">
+          {/* Healthy Foods Section */}
+          <div className="mb-6">
+            <div className="text-center mb-3">
+              <span className="font-pixel text-sm bg-green-500/20 text-green-400 px-3 py-1 rounded-full">
+                🌱 HEALTHY FOODS 🌱
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {allFoods.filter(food => food.category === 'healthy').map((food, index) => (
+                <button
+                  key={index}
+                  onClick={() => toggleFood(food.name)}
+                  disabled={selectedFoods.length >= 3 && !selectedFoods.includes(food.name)}
+                  className={`
+                    aspect-square border-2 flex flex-col items-center justify-center p-2 transition-all rounded-lg
+                    ${selectedFoods.includes(food.name) 
+                      ? 'border-green-400 bg-green-400/30 scale-110 shadow-lg shadow-green-400/50' 
+                      : selectedFoods.length >= 3 
+                        ? 'border-muted bg-muted/5 opacity-50' 
+                        : 'border-green-400/50 bg-green-400/10 hover:border-green-400 hover:scale-105'
+                    }
+                  `}
+                >
+                  <div className="text-2xl mb-1">{food.emoji}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Filling Foods Section */}
+          <div className="mb-6">
+            <div className="text-center mb-3">
+              <span className="font-pixel text-sm bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full">
+                💪 FILLING FOODS 💪
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {allFoods.filter(food => food.category === 'filling').map((food, index) => (
+                <button
+                  key={index}
+                  onClick={() => toggleFood(food.name)}
+                  disabled={selectedFoods.length >= 3 && !selectedFoods.includes(food.name)}
+                  className={`
+                    aspect-square border-2 flex flex-col items-center justify-center p-2 transition-all rounded-lg
+                    ${selectedFoods.includes(food.name) 
+                      ? 'border-blue-400 bg-blue-400/30 scale-110 shadow-lg shadow-blue-400/50' 
+                      : selectedFoods.length >= 3 
+                        ? 'border-muted bg-muted/5 opacity-50' 
+                        : 'border-blue-400/50 bg-blue-400/10 hover:border-blue-400 hover:scale-105'
+                    }
+                  `}
+                >
+                  <div className="text-2xl mb-1">{food.emoji}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Treats Section */}
+          <div className="mb-6">
+            <div className="text-center mb-3">
+              <span className="font-pixel text-sm bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full">
+                🍭 TREATS 🍭
+              </span>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {allFoods.filter(food => food.category === 'treats').map((food, index) => (
+                <button
+                  key={index}
+                  onClick={() => toggleFood(food.name)}
+                  disabled={selectedFoods.length >= 3 && !selectedFoods.includes(food.name)}
+                  className={`
+                    aspect-square border-2 flex flex-col items-center justify-center p-2 transition-all rounded-lg
+                    ${selectedFoods.includes(food.name) 
+                      ? 'border-purple-400 bg-purple-400/30 scale-110 shadow-lg shadow-purple-400/50' 
+                      : selectedFoods.length >= 3 
+                        ? 'border-muted bg-muted/5 opacity-50' 
+                        : 'border-purple-400/50 bg-purple-400/10 hover:border-purple-400 hover:scale-105'
+                    }
+                  `}
+                >
+                  <div className="text-2xl mb-1">{food.emoji}</div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Custom input */}
+      {/* Camera and Input Options */}
+      {onPhotoTaken && (
+        <div className="mb-4 max-w-md mx-auto w-full">
+          <div className="text-center mb-3">
+            <span className="font-pixel text-sm text-muted-foreground">
+              📸 OR TAKE A PHOTO
+            </span>
+          </div>
+          <Button
+            onClick={startCamera}
+            className="w-full h-12 font-pixel pixel-button flex items-center justify-center gap-2"
+            variant="outline"
+          >
+            <Camera className="w-4 h-4" />
+            OPEN CAMERA
+          </Button>
+        </div>
+      )}
+
+      {/* Simple custom input */}
       <div className="mb-6 max-w-md mx-auto w-full">
-        <p className="text-sm font-pixel text-muted-foreground mb-2 text-center">
-          OR TYPE CUSTOM FOODS
-        </p>
+        <div className="text-center mb-2">
+          <span className="font-pixel text-sm text-muted-foreground">
+            ✏️ OR TYPE SOMETHING ELSE
+          </span>
+        </div>
         <Input
           value={customInput}
           onChange={(e) => setCustomInput(e.target.value)}
-          placeholder="e.g. kimchi, avocado toast, energy drink"
+          placeholder="pizza, ice cream, etc."
           className="font-pixel text-center bg-background border-2 border-muted focus:border-accent"
         />
       </div>
 
-      {/* Camera section */}
-      {onPhotoTaken && (
-        <div className="mb-6 max-w-md mx-auto w-full">
-          <div className="text-center">
-            <p className="text-sm font-pixel text-muted-foreground mb-3">
-              OR TAKE A PHOTO OF YOUR FOOD
-            </p>
-            <Button
-              onClick={startCamera}
-              className="w-full h-12 font-pixel pixel-button flex items-center justify-center gap-2"
-              variant="outline"
-            >
-              <Camera className="w-4 h-4" />
-              OPEN CAMERA
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {/* Confirm button */}
+      {/* Big Confirm Button */}
       <div className="max-w-md mx-auto w-full">
         <Button
           onClick={handleConfirm}
           disabled={selectedFoods.length === 0 && !customInput.trim()}
-          className="w-full h-14 text-lg font-pixel pixel-button hover:scale-105 transform transition-all"
+          className={`w-full h-16 text-xl font-pixel pixel-button transition-all ${
+            selectedFoods.length > 0 || customInput.trim() 
+              ? 'hover:scale-105 transform animate-pulse' 
+              : ''
+          }`}
         >
-          CONFIRM FOODS ({selectedFoods.length + (customInput.trim() ? customInput.split(',').length : 0)})
+          {selectedFoods.length > 0 || customInput.trim() 
+            ? `✅ DONE! (${selectedFoods.length + (customInput.trim() ? 1 : 0)} FOODS)` 
+            : '👆 SELECT FOODS FIRST'
+          }
         </Button>
       </div>
 
@@ -308,14 +308,14 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
                 onClick={capturePhoto}
                 className="flex-1 h-12 font-pixel pixel-button"
               >
-                CAPTURE
+                📸 CAPTURE
               </Button>
               <Button
                 onClick={stopCamera}
                 className="flex-1 h-12 font-pixel"
                 variant="outline"
               >
-                CANCEL
+                ❌ CANCEL
               </Button>
             </div>
           </div>
