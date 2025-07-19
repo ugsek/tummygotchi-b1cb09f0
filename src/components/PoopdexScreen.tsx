@@ -8,9 +8,7 @@ interface PoopdexScreenProps {
 }
 
 const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: PoopdexScreenProps) => {
-  const [selectedPoop, setSelectedPoop] = useState<PoopType | null>(
-    POOP_DATABASE.find(p => p.id === 'basic_blob') || null
-  );
+  const [selectedPoop, setSelectedPoop] = useState<PoopType | null>(null);
 
   const unlockedCount = unlockedPoops.length;
   const totalCount = POOP_DATABASE.length;
@@ -39,7 +37,7 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
       </div>
 
       {/* Collection grid */}
-      <div className="grid grid-cols-4 gap-3 mb-6 flex-1 max-h-96 overflow-y-auto">
+      <div className="grid grid-cols-4 gap-3 mb-6 flex-1 overflow-y-auto">
         {POOP_DATABASE.map((poop, index) => {
           const isUnlocked = unlockedPoops.includes(poop.id);
           const isSelected = selectedPoop?.id === poop.id;
@@ -113,27 +111,6 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
         </div>
       )}
 
-      {/* Bottom navigation */}
-      <div className="flex justify-center space-x-6 mb-4">
-        <Button
-          variant="outline"
-          className="w-12 h-12 p-0 font-pixel text-xs"
-        >
-          ≡
-        </Button>
-        <Button
-          onClick={onBackToGame}
-          className="w-12 h-12 p-0 font-pixel text-xs"
-        >
-          🏠
-        </Button>
-        <Button
-          variant="outline"
-          className="w-12 h-12 p-0 font-pixel text-xs"
-        >
-          ⚙
-        </Button>
-      </div>
     </div>
   );
 };
