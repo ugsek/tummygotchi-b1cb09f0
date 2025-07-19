@@ -108,7 +108,7 @@ const GoalSelectionScreen = ({ onGoalSelect, onSkip }: GoalSelectionScreenProps)
           variant="outline"
           className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
         >
-          SKIP TO GAME
+          SKIP THE BORING STUFF!
         </Button>
       </div>
     </div>

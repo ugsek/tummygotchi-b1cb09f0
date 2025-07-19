@@ -126,7 +126,7 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
               : 'hover:scale-105 transform'
           }`}
         >
-          {weirdnessLevel >= 100 ? '💩 PREPARING TO POOP... 💩' : 'FEED ME 🍴'}
+          {weirdnessLevel >= 100 ? '💩 POOP TIME! GET READY! 💩' : 'FEED ME WEIRD STUFF! 🤪'}
         </Button>
       </div>
     </div>

@@ -33,7 +33,7 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
             variant="outline"
             className="mb-4 font-pixel text-sm"
           >
-            CHANGE NAME
+            GIVE IT A WEIRDER NAME
           </Button>
         ) : (
           <div className="mb-4 max-w-xs mx-auto">
@@ -53,13 +53,13 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
                 variant="outline"
                 className="font-pixel text-xs flex-1"
               >
-                CANCEL
+                NEVERMIND
               </Button>
               <Button
                 onClick={() => setIsCustomizing(false)}
                 className="font-pixel text-xs flex-1"
               >
-                SAVE
+                THAT'S PERFECT!
               </Button>
             </div>
           </div>
@@ -122,7 +122,7 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
           onClick={handleContinue}
           className="w-full max-w-md mx-auto block pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
         >
-          TIME TO FEED YOUR BELLY!
+          LET'S STUFF THIS BLOB! 🤤
         </Button>
       </div>
     </div>

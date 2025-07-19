@@ -18,7 +18,7 @@ const NewPoopUnlockedScreen = ({ poopType, foods, onAddToPoopdex, onGetFoodTip }
           POOP NOT FOUND!
         </h1>
         <Button onClick={onAddToPoopdex} className="pixel-button">
-          CONTINUE
+          OH WELL! KEEP GOING!
         </Button>
       </div>
     );
@@ -138,14 +138,14 @@ const NewPoopUnlockedScreen = ({ poopType, foods, onAddToPoopdex, onGetFoodTip }
           onClick={onAddToPoopdex}
           className="w-full h-16 text-lg font-pixel pixel-button bg-primary hover:bg-primary/80 border-2 border-accent"
         >
-          ADD TO POOPDEX
+          COLLECT THIS WEIRD POOP! 💩
         </Button>
         
         <Button
           onClick={onGetFoodTip}
           className="w-full h-16 text-lg font-pixel pixel-button bg-accent hover:bg-accent/80 border-2 border-primary"
         >
-          GET A FOOD TIP
+          TELL ME FOOD SECRETS! 🤫
         </Button>
       </div>
       

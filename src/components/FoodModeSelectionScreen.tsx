@@ -71,7 +71,7 @@ const FoodModeSelectionScreen = ({ petName, onSelectEmojiTap, onSelectPhotoMode 
           className="w-full h-16 text-lg font-pixel pixel-button flex items-center justify-center gap-4"
         >
           <Smile className="w-6 h-6" />
-          EMOJI TAP
+          TAP FOOD EMOJIS! 🍎
         </Button>
 
         <Button
@@ -79,7 +79,7 @@ const FoodModeSelectionScreen = ({ petName, onSelectEmojiTap, onSelectPhotoMode 
           className="w-full h-16 text-lg font-pixel pixel-button flex items-center justify-center gap-4"
         >
           <Camera className="w-6 h-6" />
-          PHOTO MODE
+          SNAP FOOD PICS! 📸
         </Button>
       </div>
     </div>

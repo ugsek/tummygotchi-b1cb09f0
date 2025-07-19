@@ -168,7 +168,7 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
           disabled={loading}
           className="w-full max-w-md mx-auto block h-12 text-lg font-pixel pixel-button"
         >
-          {loading ? "DIGESTING..." : "CONTINUE"}
+          {loading ? "BELLY IS THINKING..." : "YUM! WHAT'S NEXT? 🤤"}
         </Button>
       </div>
     </div>

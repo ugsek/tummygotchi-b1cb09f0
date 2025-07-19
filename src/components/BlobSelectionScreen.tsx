@@ -129,7 +129,7 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
             onClick={handleConfirm}
             className="pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
           >
-            PICK THIS
+            THIS ONE'S GROSS! I LOVE IT!
           </Button>
         )}
         
@@ -138,7 +138,7 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
           variant="outline"
           className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
         >
-          SKIP TO GAME
+          JUST GIVE ME A RANDOM WEIRDO!
         </Button>
       </div>
     </div>

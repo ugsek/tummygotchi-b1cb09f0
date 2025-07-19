@@ -187,7 +187,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background pb-20">
       {gameState === 'welcome' && (
-        <WelcomeScreen onStart={handleStart} onSkip={handleSkipOnboarding} />
+        <WelcomeScreen onStart={handleStart} />
       )}
       
       {gameState === 'goal-selection' && (

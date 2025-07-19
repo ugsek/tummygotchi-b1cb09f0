@@ -76,7 +76,7 @@ const ReadyToPoopScreen = ({ petName, onSqueezeNow }: ReadyToPoopScreenProps) =>
           onClick={onSqueezeNow}
           className="w-full h-16 text-xl font-pixel pixel-button mb-4"
         >
-          SQUEEZE NOW!
+          SQUEEZE THE GUTS OUT! 💪
         </Button>
 
         {/* Bottom navigation indicators */}
