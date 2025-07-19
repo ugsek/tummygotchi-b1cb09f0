@@ -115,28 +115,6 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
         >
           FEED ME 🍴
         </Button>
-        
-        <div className="flex space-x-4">
-          <Button 
-            variant="secondary"
-            className="flex-1 pixel-button text-sm py-3"
-          >
-            POOPDEX
-          </Button>
-          <Button 
-            variant="secondary"
-            className="flex-1 pixel-button text-sm py-3"
-          >
-            SETTINGS
-          </Button>
-        </div>
-      </div>
-
-      {/* Bottom navigation indicators */}
-      <div className="flex justify-center space-x-2 mt-6">
-        <div className="w-2 h-2 bg-accent rounded-full"></div>
-        <div className="w-2 h-2 bg-muted rounded-full"></div>
-        <div className="w-2 h-2 bg-muted rounded-full"></div>
       </div>
     </div>
   );

@@ -31,33 +31,30 @@ const BottomNavigation = ({
     <div className="fixed bottom-0 left-0 right-0 bg-background border-t-2 border-accent p-4">
       <div className="flex justify-around items-center max-w-md mx-auto">
         <Button
-          variant={currentState === 'poopdex' ? 'default' : 'outline'}
+          variant={currentState.includes('food') || currentState.includes('emoji') || currentState.includes('photo') ? 'default' : 'outline'}
           size="sm"
-          onClick={onNavigateToPoopdex}
-          className="flex flex-col items-center gap-1 h-auto py-2"
+          onClick={onNavigateToFeed}
+          className="flex items-center justify-center h-12 w-12 rounded-xl"
         >
-          <Book className="h-4 w-4" />
-          <span className="text-xs font-pixel">POOPDEX</span>
+          <Utensils className="h-5 w-5" />
         </Button>
         
         <Button
           variant={currentState === 'game' ? 'default' : 'outline'}
           size="sm"
           onClick={onNavigateToHome}
-          className="flex flex-col items-center gap-1 h-auto py-2"
+          className="flex items-center justify-center h-12 w-12 rounded-xl"
         >
-          <Home className="h-4 w-4" />
-          <span className="text-xs font-pixel">HOME</span>
+          <Home className="h-5 w-5" />
         </Button>
         
         <Button
-          variant={currentState.includes('food') || currentState.includes('emoji') || currentState.includes('photo') ? 'default' : 'outline'}
+          variant={currentState === 'poopdex' ? 'default' : 'outline'}
           size="sm"
-          onClick={onNavigateToFeed}
-          className="flex flex-col items-center gap-1 h-auto py-2"
+          onClick={onNavigateToPoopdex}
+          className="flex items-center justify-center h-12 w-12 rounded-xl"
         >
-          <Utensils className="h-4 w-4" />
-          <span className="text-xs font-pixel">FEED</span>
+          <Book className="h-5 w-5" />
         </Button>
       </div>
     </div>
