@@ -2,9 +2,10 @@ import { Button } from "@/components/ui/button";
 
 interface WelcomeScreenProps {
   onStart: () => void;
+  onSkip: () => void;
 }
 
-const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
+const WelcomeScreen = ({ onStart, onSkip }: WelcomeScreenProps) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-center p-4">
       {/* Floating pixels/sparkles */}
@@ -42,13 +43,23 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         </p>
       </div>
 
-      {/* Start button */}
-      <Button 
-        onClick={onStart}
-        className="pixel-button text-lg md:text-xl py-4 px-8 mb-8 hover:scale-105 transform transition-all"
-      >
-        LET'S START
-      </Button>
+      {/* Buttons */}
+      <div className="flex flex-col gap-4 mb-8">
+        <Button 
+          onClick={onStart}
+          className="pixel-button text-lg md:text-xl py-4 px-8 hover:scale-105 transform transition-all"
+        >
+          LET'S START
+        </Button>
+        
+        <Button 
+          onClick={onSkip}
+          variant="outline"
+          className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
+        >
+          SKIP INTRO
+        </Button>
+      </div>
 
       {/* Tagline */}
       <p className="font-pixel text-xs text-muted-foreground">

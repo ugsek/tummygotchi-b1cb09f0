@@ -14,6 +14,7 @@ import SqueezeScreen from "@/components/SqueezeScreen";
 import NewPoopUnlockedScreen from "@/components/NewPoopUnlockedScreen";
 import FoodTipScreen from "@/components/FoodTipScreen";
 import PoopdexScreen from "@/components/PoopdexScreen";
+import BottomNavigation from "@/components/BottomNavigation";
 
 type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'ready-to-poop' | 'squeeze' | 'new-poop-unlocked' | 'food-tip' | 'poopdex';
 
@@ -96,18 +97,38 @@ const Index = () => {
     setGameState('game');
   };
 
+  const handleSkipOnboarding = () => {
+    // Set default values and skip to game
+    setSelectedGoal('healthy');
+    setSelectedBlob('sploosh');
+    setPetName('Sploosh');
+    setGameState('game');
+  };
+
+  const handleNavigateToHome = () => {
+    setGameState('game');
+  };
+
+  const handleNavigateToPoopdex = () => {
+    setGameState('poopdex');
+  };
+
+  const handleNavigateToFeed = () => {
+    setGameState('food-mode-selection');
+  };
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-20">
       {gameState === 'welcome' && (
-        <WelcomeScreen onStart={handleStart} />
+        <WelcomeScreen onStart={handleStart} onSkip={handleSkipOnboarding} />
       )}
       
       {gameState === 'goal-selection' && (
-        <GoalSelectionScreen onGoalSelect={handleGoalSelect} />
+        <GoalSelectionScreen onGoalSelect={handleGoalSelect} onSkip={handleSkipOnboarding} />
       )}
       
       {gameState === 'blob-selection' && (
-        <BlobSelectionScreen onBlobSelect={handleBlobSelect} />
+        <BlobSelectionScreen onBlobSelect={handleBlobSelect} onSkip={handleSkipOnboarding} />
       )}
       
       {gameState === 'hatching' && (
@@ -186,6 +207,13 @@ const Index = () => {
       {gameState === 'poopdex' && (
         <PoopdexScreen onBackToGame={handleBackToGame} />
       )}
+      
+      <BottomNavigation
+        currentState={gameState}
+        onNavigateToHome={handleNavigateToHome}
+        onNavigateToPoopdex={handleNavigateToPoopdex}
+        onNavigateToFeed={handleNavigateToFeed}
+      />
     </div>
   );
 };

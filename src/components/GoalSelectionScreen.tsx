@@ -9,6 +9,7 @@ interface Goal {
 
 interface GoalSelectionScreenProps {
   onGoalSelect: (goalId: string) => void;
+  onSkip: () => void;
 }
 
 const goals: Goal[] = [
@@ -38,7 +39,7 @@ const goals: Goal[] = [
   }
 ];
 
-const GoalSelectionScreen = ({ onGoalSelect }: GoalSelectionScreenProps) => {
+const GoalSelectionScreen = ({ onGoalSelect, onSkip }: GoalSelectionScreenProps) => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       {/* Floating creature */}
@@ -98,6 +99,17 @@ const GoalSelectionScreen = ({ onGoalSelect }: GoalSelectionScreenProps) => {
             <div className="w-4 h-4 border-2 border-accent"></div>
           </Button>
         ))}
+      </div>
+      
+      {/* Skip button */}
+      <div className="mt-8">
+        <Button 
+          onClick={onSkip}
+          variant="outline"
+          className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
+        >
+          SKIP TO GAME
+        </Button>
       </div>
     </div>
   );

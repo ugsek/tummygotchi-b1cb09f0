@@ -10,6 +10,7 @@ interface Blob {
 
 interface BlobSelectionScreenProps {
   onBlobSelect: (blobId: string) => void;
+  onSkip: () => void;
 }
 
 const blobs: Blob[] = [
@@ -33,7 +34,7 @@ const blobs: Blob[] = [
   }
 ];
 
-const BlobSelectionScreen = ({ onBlobSelect }: BlobSelectionScreenProps) => {
+const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps) => {
   const [selectedBlob, setSelectedBlob] = useState<string | null>(null);
 
   const handleBlobClick = (blobId: string) => {
@@ -121,15 +122,25 @@ const BlobSelectionScreen = ({ onBlobSelect }: BlobSelectionScreenProps) => {
         ))}
       </div>
 
-      {/* Confirm button */}
-      {selectedBlob && (
+      {/* Buttons */}
+      <div className="flex flex-col gap-4">
+        {selectedBlob && (
+          <Button 
+            onClick={handleConfirm}
+            className="pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
+          >
+            PICK THIS
+          </Button>
+        )}
+        
         <Button 
-          onClick={handleConfirm}
-          className="pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
+          onClick={onSkip}
+          variant="outline"
+          className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
         >
-          PICK THIS
+          SKIP TO GAME
         </Button>
-      )}
+      </div>
     </div>
   );
 };
