@@ -18,6 +18,7 @@ import BottomNavigation from "@/components/BottomNavigation";
 import FoodReactionScreen from "@/components/FoodReactionScreen";
 import PlopScreen from "@/components/PlopScreen";
 import { generatePoopFromCombination } from "@/lib/poopGenerator";
+import { getPoopById } from "@/data/poopDatabase";
 
 type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex';
 
@@ -273,7 +274,6 @@ const Index = () => {
         <PlopScreen 
           petName={petName}
           poopEmoji={(() => {
-            const { getPoopById } = require('@/data/poopDatabase');
             const poop = getPoopById(lastPoopType);
             return poop?.emoji || '💩';
           })()}
