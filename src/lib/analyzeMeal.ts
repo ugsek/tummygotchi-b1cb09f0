@@ -1,9 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
 
-export const analyzeMeal = async (mealText: string, userGoal: string) => {
+export const analyzeMeal = async (mealText: string, userGoal: string, imageData?: string) => {
   try {
     const { data, error } = await supabase.functions.invoke('analyzeMeal', {
-      body: { mealText, userGoal },
+      body: { mealText, userGoal, imageData },
     });
 
     if (error) {

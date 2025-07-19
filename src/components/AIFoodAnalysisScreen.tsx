@@ -1,61 +1,75 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { analyzeMeal } from "@/lib/analyzeMeal";
 
 interface AIFoodAnalysisScreenProps {
   imageData: string;
   onAnalysisComplete: (foods: string[]) => void;
+  userGoal?: string;
 }
 
-const AIFoodAnalysisScreen = ({ imageData, onAnalysisComplete }: AIFoodAnalysisScreenProps) => {
+const AIFoodAnalysisScreen = ({ imageData, onAnalysisComplete, userGoal = "stronger" }: AIFoodAnalysisScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState("Analyzing image...");
   const [isComplete, setIsComplete] = useState(false);
   const [detectedFoods, setDetectedFoods] = useState<string[]>([]);
+  const [analysisData, setAnalysisData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simulate AI analysis process
-    const steps = [
-      { text: "Analyzing image...", duration: 1500 },
-      { text: "Identifying food items...", duration: 2000 },
-      { text: "Calculating nutrition...", duration: 1500 },
-      { text: "Analysis complete!", duration: 500 }
-    ];
-
-    let currentProgress = 0;
-    let stepIndex = 0;
-
-    const runAnalysis = () => {
-      if (stepIndex < steps.length) {
-        setCurrentStep(steps[stepIndex].text);
+    const performAnalysis = async () => {
+      try {
+        setProgress(20);
+        setCurrentStep("Sending image to AI...");
         
-        const stepDuration = steps[stepIndex].duration;
-        const progressIncrement = 100 / steps.length;
-        const incrementTime = stepDuration / progressIncrement;
-
-        const progressInterval = setInterval(() => {
-          currentProgress += 1;
-          setProgress(currentProgress);
-
-          if (currentProgress >= (stepIndex + 1) * progressIncrement) {
-            clearInterval(progressInterval);
-            stepIndex++;
-            
-            if (stepIndex === steps.length) {
-              // Analysis complete - set detected foods
-              const mockFoods = ["broccoli", "chicken", "rice"];
-              setDetectedFoods(mockFoods);
-              setIsComplete(true);
-            } else {
-              setTimeout(runAnalysis, 200);
-            }
-          }
-        }, incrementTime);
+        const result = await analyzeMeal("", userGoal, imageData);
+        
+        setProgress(60);
+        setCurrentStep("Processing AI response...");
+        
+        // Simulate some processing time for better UX
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        setProgress(90);
+        setCurrentStep("Finalizing analysis...");
+        
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        setProgress(100);
+        setCurrentStep("Analysis complete!");
+        
+        if (result && result.foods) {
+          setDetectedFoods(result.foods);
+          setAnalysisData(result);
+        } else {
+          // Fallback if no foods detected
+          setDetectedFoods(["unknown food"]);
+          setAnalysisData({ 
+            foods: ["unknown food"], 
+            healthScore: 50, 
+            message: "I can see food, but need a clearer image!",
+            confidence: 30
+          });
+        }
+        
+        setIsComplete(true);
+      } catch (err) {
+        console.error('Error analyzing image:', err);
+        setError('Failed to analyze image. Please try again.');
+        setDetectedFoods(["unidentified food"]);
+        setAnalysisData({ 
+          foods: ["unidentified food"], 
+          healthScore: 50, 
+          message: "Oops! My AI eyes got confused. Try another photo!",
+          confidence: 0
+        });
+        setIsComplete(true);
       }
     };
 
-    runAnalysis();
-  }, []);
+    performAnalysis();
+  }, [imageData, userGoal]);
 
   const handleSqueezeNow = () => {
     onAnalysisComplete(detectedFoods);
@@ -77,18 +91,24 @@ const AIFoodAnalysisScreen = ({ imageData, onAnalysisComplete }: AIFoodAnalysisS
             className="w-full h-full object-cover pixel-creature"
           />
           
-          {/* Food labels overlay */}
-          {isComplete && (
+          {/* Dynamic food labels overlay from AI analysis */}
+          {isComplete && detectedFoods.length > 0 && (
             <div className="relative -mt-48 h-48 flex items-center justify-center">
-              <div className="absolute top-4 left-4 bg-accent text-accent-foreground px-2 py-1 text-xs font-pixel">
-                BROCCOLI
-              </div>
-              <div className="absolute top-4 right-4 bg-accent text-accent-foreground px-2 py-1 text-xs font-pixel">
-                CHICKEN
-              </div>
-              <div className="absolute bottom-4 right-4 bg-accent text-accent-foreground px-2 py-1 text-xs font-pixel">
-                RICE
-              </div>
+              {detectedFoods.slice(0, 3).map((food, index) => {
+                const positions = [
+                  "top-4 left-4",
+                  "top-4 right-4", 
+                  "bottom-4 right-4"
+                ];
+                return (
+                  <div 
+                    key={index} 
+                    className={`absolute ${positions[index]} bg-accent text-accent-foreground px-2 py-1 text-xs font-pixel uppercase`}
+                  >
+                    {food}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
@@ -107,8 +127,13 @@ const AIFoodAnalysisScreen = ({ imageData, onAnalysisComplete }: AIFoodAnalysisS
           {isComplete ? (
             <div className="border-2 border-accent bg-accent/10 p-3 rounded flex-1">
               <p className="text-sm font-pixel text-foreground">
-                I SEE GREENS, PROTEIN, AND CARBS!
+                {error ? error : (analysisData?.message || "I SEE SOME TASTY FOOD!")}
               </p>
+              {analysisData?.confidence !== undefined && (
+                <p className="text-xs font-pixel text-muted-foreground mt-1">
+                  Confidence: {analysisData.confidence}%
+                </p>
+              )}
             </div>
           ) : (
             <div className="border-2 border-muted bg-muted/10 p-3 rounded flex-1">
@@ -124,8 +149,13 @@ const AIFoodAnalysisScreen = ({ imageData, onAnalysisComplete }: AIFoodAnalysisS
           <p className="text-sm font-pixel text-muted-foreground mb-2">
             POOP WEIRDNESS METER
           </p>
-          <Progress value={75} className="h-4 bg-muted" />
-          <p className="text-xs font-pixel text-muted-foreground mt-1">75%</p>
+          <Progress 
+            value={analysisData?.healthScore || 50} 
+            className="h-4 bg-muted" 
+          />
+          <p className="text-xs font-pixel text-muted-foreground mt-1">
+            {analysisData?.healthScore || 50}%
+          </p>
         </div>
 
         {/* Progress or action button */}

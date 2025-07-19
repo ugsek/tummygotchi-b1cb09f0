@@ -249,6 +249,7 @@ const Index = () => {
         <AIFoodAnalysisScreen 
           imageData={capturedImage}
           onAnalysisComplete={handleAnalysisComplete}
+          userGoal={selectedGoal}
         />
       )}
       
