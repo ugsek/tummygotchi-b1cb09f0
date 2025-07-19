@@ -60,10 +60,10 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
         </div>
       </div>
 
-      {/* Main content area */}
-      <div className="flex-1 p-4">
-        {/* HERO PET DISPLAY - Reduced to 70% size */}
-        <div className="flex-1 flex flex-col items-center justify-center min-h-[45vh] max-h-[50vh]">
+      {/* Main content area - Center the pet */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4">
+        {/* HERO PET DISPLAY - Centered */}
+        <div className="flex flex-col items-center justify-center">
           <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative">
             {/* Pet belly - Hero size reduced to 70% */}
             <div className="w-full h-full bg-primary rounded-full relative pixel-creature blob-bounce">

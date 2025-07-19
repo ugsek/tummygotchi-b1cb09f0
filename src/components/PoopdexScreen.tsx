@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { POOP_DATABASE, PoopType } from "@/data/poopDatabase";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { X } from "lucide-react";
 
 interface PoopdexScreenProps {
   onBackToGame: () => void;
@@ -9,6 +16,7 @@ interface PoopdexScreenProps {
 
 const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: PoopdexScreenProps) => {
   const [selectedPoop, setSelectedPoop] = useState<PoopType | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const unlockedCount = unlockedPoops.length;
   const totalCount = POOP_DATABASE.length;
@@ -37,7 +45,7 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
       </div>
 
       {/* Collection grid */}
-      <div className={`grid grid-cols-4 gap-3 mb-6 overflow-y-auto ${selectedPoop ? 'flex-1' : 'flex-1'}`}>
+      <div className="grid grid-cols-4 gap-3 mb-6 overflow-y-auto flex-1">
         {POOP_DATABASE.map((poop, index) => {
           const isUnlocked = unlockedPoops.includes(poop.id);
           const isSelected = selectedPoop?.id === poop.id;
@@ -54,7 +62,12 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
                 }
                 ${isSelected ? 'border-4 border-accent shadow-lg scale-105' : ''}
               `}
-              onClick={() => isUnlocked && setSelectedPoop(poop)}
+              onClick={() => {
+                if (isUnlocked) {
+                  setSelectedPoop(poop);
+                  setIsModalOpen(true);
+                }
+              }}
             >
               {isUnlocked ? (
                 <div className="w-full h-full flex flex-col items-center justify-center">
@@ -75,41 +88,53 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
         })}
       </div>
 
-      {/* Selected poop info - STICKY AT TOP */}
-      {selectedPoop && (
-        <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-2 border-accent bg-card p-4 mb-4 z-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-12 h-12 flex items-center justify-center text-3xl">
-              {selectedPoop.emoji}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <h2 className="text-lg font-pixel text-foreground">{selectedPoop.name}</h2>
-                <span className={`text-xs font-pixel px-2 py-1 border border-accent rounded ${getRarityColor(selectedPoop.rarity)}`}>
-                  {selectedPoop.rarity.toUpperCase()}
-                </span>
+      {/* Poop Info Modal */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-md mx-auto bg-card border-2 border-accent">
+          <DialogHeader>
+            <DialogTitle className="font-pixel text-accent text-center pixel-text-glow">
+              POOP INFO
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedPoop && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 flex items-center justify-center text-3xl">
+                  {selectedPoop.emoji}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className="text-lg font-pixel text-foreground">{selectedPoop.name}</h2>
+                    <span className={`text-xs font-pixel px-2 py-1 border border-accent rounded ${getRarityColor(selectedPoop.rarity)}`}>
+                      {selectedPoop.rarity.toUpperCase()}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <p className="text-xs font-pixel text-muted-foreground mb-2">
+              
+              <p className="text-sm font-pixel text-muted-foreground">
                 {selectedPoop.description}
               </p>
-              <p className="text-xs font-pixel text-accent">
+              
+              <p className="text-sm font-pixel text-accent">
                 {selectedPoop.unlockHint}
               </p>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-pixel text-muted-foreground">WEIRDNESS:</span>
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={`text-lg ${i < selectedPoop.weirdness ? 'text-accent' : 'text-muted'}`}>
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-pixel text-muted-foreground">WEIRDNESS:</span>
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className={`text-lg ${i < selectedPoop.weirdness ? 'text-accent' : 'text-muted'}`}>
-                  ★
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+          )}
+        </DialogContent>
+      </Dialog>
 
     </div>
   );
