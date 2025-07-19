@@ -16,9 +16,10 @@ import FoodTipScreen from "@/components/FoodTipScreen";
 import PoopdexScreen from "@/components/PoopdexScreen";
 import BottomNavigation from "@/components/BottomNavigation";
 import FoodReactionScreen from "@/components/FoodReactionScreen";
+import PlopScreen from "@/components/PlopScreen";
 import { generatePoopFromCombination } from "@/lib/poopGenerator";
 
-type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'new-poop-unlocked' | 'food-tip' | 'poopdex';
+type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex';
 
 const Index = () => {
   const [gameState, setGameState] = useState<GameState>('welcome');
@@ -140,12 +141,14 @@ const Index = () => {
     
     setWeirdnessLevel(0); // Reset weirdness after pooping
     setDaysLogged(0); // Reset days counter
-    if (showFoodTipAfterPoop) {
-      setGameState('food-tip');
-      setShowFoodTipAfterPoop(false);
-    } else {
-      setGameState('new-poop-unlocked');
-    }
+    
+    // Show PLOP animation first
+    setGameState('plop');
+  };
+
+  const handlePlopComplete = () => {
+    // After PLOP animation, show the new poop unlocked screen
+    setGameState('new-poop-unlocked');
   };
 
   const handleAddToPoopdex = () => {
@@ -263,6 +266,18 @@ const Index = () => {
         <SqueezeScreen 
           petName={petName}
           onPoopComplete={handlePoopComplete}
+        />
+      )}
+      
+      {gameState === 'plop' && (
+        <PlopScreen 
+          petName={petName}
+          poopEmoji={(() => {
+            const { getPoopById } = require('@/data/poopDatabase');
+            const poop = getPoopById(lastPoopType);
+            return poop?.emoji || '💩';
+          })()}
+          onPlopComplete={handlePlopComplete}
         />
       )}
       
