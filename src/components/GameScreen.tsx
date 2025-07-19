@@ -55,7 +55,7 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
               : 'text-muted-foreground'
           }`}>
             {weirdnessLevel >= 100 ? "🎉 AUTO-POOPING IN 2 SECONDS! 💩✨" : 
-             "EAT MORE WEIRD FOOD TO FILL THE METER!"}
+             "EAT MORE HEALTHY FOOD TO FILL THE METER!"}
           </p>
         </div>
       </div>
@@ -109,7 +109,7 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
               Your belly buddy is wiggling happily!
             </p>
             <p className="font-pixel text-sm text-muted-foreground">
-              Ready for some weird food?
+              Ready for some healthy food?
             </p>
           </div>
         </div>
@@ -126,7 +126,7 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
               : 'hover:scale-105 transform'
           }`}
         >
-          {weirdnessLevel >= 100 ? '💩 POOP TIME! GET READY! 💩' : 'FEED ME WEIRD STUFF! 🤪'}
+          {weirdnessLevel >= 100 ? '💩 POOP TIME! GET READY! 💩' : 'FEED ME GOOD STUFF! 😋'}
         </Button>
       </div>
     </div>
