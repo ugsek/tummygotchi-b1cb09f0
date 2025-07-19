@@ -107,15 +107,18 @@ const Index = () => {
       return;
     }
     
-    // Normal weirdness boost (but only significant on healthy days)
+    // Normal weirdness boost
     const dailyBoost = weirdnessBoost * 10; // Each healthy meal adds 10-30 points
     const newWeirdness = Math.min(100, weirdnessLevel + dailyBoost);
     setWeirdnessLevel(newWeirdness);
     
-    // Need 3 days of logging AND 100% weirdness to poop
-    if (newDaysLogged >= 3 && newWeirdness >= 100) {
+    // Automatically trigger pooping when weirdness reaches 100% (regardless of days)
+    if (newWeirdness >= 100) {
       setShowFoodTipAfterPoop(true);
-      setGameState('ready-to-poop');
+      // Add a small delay for dramatic effect, then auto-trigger squeeze
+      setTimeout(() => {
+        setGameState('squeeze');
+      }, 2000);
     } else {
       setGameState('game');
     }
