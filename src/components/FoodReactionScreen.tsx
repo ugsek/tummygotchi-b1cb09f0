@@ -84,32 +84,42 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
   }, [foods, userGoal, isHealthy, currentWeirdness, hasInappropriateContent]);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-      {/* Pet Reaction */}
-      <div className="mb-8 text-center">
-        <div className="w-32 h-32 mx-auto mb-6 pixel-creature wiggle">
+    <div className="min-h-screen bg-background flex flex-col p-4">
+      {/* Food consumed - Mobile header */}
+      <div className="mb-4 text-center">
+        <h2 className="font-pixel text-lg text-accent mb-2">
+          FOODS CONSUMED:
+        </h2>
+        <p className="font-pixel text-sm text-foreground">
+          {foods.join(' + ').toUpperCase()}
+        </p>
+      </div>
+
+      {/* HERO PET REACTION - 60-70% of screen */}
+      <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] max-h-[70vh]">
+        <div className="w-full aspect-square max-w-[85vw] max-h-[55vh] relative pixel-creature wiggle">
           <div className="w-full h-full bg-primary rounded-full relative">
-            {/* Big reaction emoji */}
-            <div className="absolute -top-8 -right-8 text-6xl">
+            {/* Big reaction emoji - responsive positioning */}
+            <div className="absolute -top-[15%] -right-[15%] text-[20%] leading-none">
               {reaction}
             </div>
             
-            {/* Eyes */}
-            <div className="absolute top-6 left-6 w-6 h-6 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-3 h-3 bg-background rounded-full"></div>
+            {/* Eyes - responsive sizing */}
+            <div className="absolute top-[20%] left-[20%] w-[10%] h-[10%] bg-accent rounded-full">
+              <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full"></div>
             </div>
-            <div className="absolute top-6 right-6 w-6 h-6 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-3 h-3 bg-background rounded-full"></div>
+            <div className="absolute top-[20%] right-[20%] w-[10%] h-[10%] bg-accent rounded-full">
+              <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full"></div>
             </div>
             
-            {/* Mouth */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-8 h-4 bg-background rounded-full"></div>
+            {/* Mouth - responsive sizing */}
+            <div className="absolute bottom-[25%] left-1/2 transform -translate-x-1/2 w-[15%] h-[8%] bg-background rounded-full"></div>
             
-            {/* Sparkles */}
+            {/* Sparkles - responsive distribution */}
             {[...Array(6)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 bg-accent pulse-glow"
+                className="absolute w-[1.5%] h-[1.5%] bg-accent pulse-glow"
                 style={{
                   left: `${20 + Math.random() * 60}%`,
                   top: `${20 + Math.random() * 60}%`,
@@ -119,30 +129,20 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
             ))}
           </div>
         </div>
+
+        {/* Reaction message - Below pet */}
+        <div className="mt-4 text-center px-4">
+          <h3 className="font-pixel text-lg text-primary mb-2 pixel-text-glow">
+            {loading ? "BELLY ANALYZING..." : message}
+          </h3>
+          <p className="font-pixel text-sm text-muted-foreground">
+            {loading ? "Processing flavors..." : bellyStatus}
+          </p>
+        </div>
       </div>
 
-      {/* Food consumed */}
-      <div className="mb-6 text-center">
-        <h2 className="font-pixel text-lg text-accent mb-2">
-          FOODS CONSUMED:
-        </h2>
-        <p className="font-pixel text-sm text-foreground">
-          {foods.join(' + ').toUpperCase()}
-        </p>
-      </div>
-
-      {/* Reaction message */}
-      <div className="mb-6 text-center">
-        <h3 className="font-pixel text-xl text-primary mb-2 pixel-text-glow">
-          {loading ? "BELLY ANALYZING..." : message}
-        </h3>
-        <p className="font-pixel text-sm text-muted-foreground">
-          {loading ? "Processing flavors..." : bellyStatus}
-        </p>
-      </div>
-
-      {/* Weirdness boost indicator */}
-      <div className="mb-8 w-full max-w-md">
+      {/* Weirdness boost indicator - Mobile optimized */}
+      <div className="mb-6 w-full max-w-md mx-auto">
         <div className="font-pixel text-sm text-accent mb-2 text-center">
           {weirdnessBoost >= 0 ? `DAILY BOOST: +${weirdnessBoost}/3` : "PENALTY: -1 (NOT FOOD!)"}
         </div>
@@ -161,14 +161,16 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
         </p>
       </div>
 
-      {/* Continue button */}
-      <Button
-        onClick={() => onContinue(weirdnessBoost)}
-        disabled={loading}
-        className="w-full max-w-md h-12 text-lg font-pixel pixel-button"
-      >
-        {loading ? "DIGESTING..." : "CONTINUE"}
-      </Button>
+      {/* Sticky Continue button */}
+      <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t border-accent/20">
+        <Button
+          onClick={() => onContinue(weirdnessBoost)}
+          disabled={loading}
+          className="w-full max-w-md mx-auto block h-12 text-lg font-pixel pixel-button"
+        >
+          {loading ? "DIGESTING..." : "CONTINUE"}
+        </Button>
+      </div>
     </div>
   );
 };

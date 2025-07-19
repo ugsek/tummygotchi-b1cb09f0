@@ -117,8 +117,8 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-4 pb-24">
-      {/* Simple Header */}
+    <div className="min-h-screen bg-background flex flex-col p-4 pb-28">
+      {/* Simple Header - Mobile optimized */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-pixel text-foreground mb-2 pixel-text-glow">
           🍽️ WHAT DID YOU EAT? 🍽️

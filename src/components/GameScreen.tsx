@@ -13,9 +13,9 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
   const [streak, setStreak] = useState(3);
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      {/* Poop Weirdness Meter */}
-      <div className={`mb-8 ${weirdnessLevel >= 100 ? 'animate-pulse' : ''}`}>
+    <div className="min-h-screen bg-background p-4 flex flex-col">
+      {/* Poop Weirdness Meter - Mobile optimized */}
+      <div className={`mb-4 ${weirdnessLevel >= 100 ? 'animate-pulse' : ''}`}>
         <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
           <span>POOP WEIRDNESS</span>
           <span>{Math.round(weirdnessLevel)}/100</span>
@@ -59,37 +59,37 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
         </p>
       </div>
 
-      {/* Main pet display */}
-      <div className="flex-1 flex flex-col items-center justify-center mb-8">
-        <div className="w-64 h-64 mx-auto mb-8 relative">
-          {/* Pet belly */}
+      {/* HERO PET DISPLAY - 60-70% of screen */}
+      <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] max-h-[70vh]">
+        <div className="w-full aspect-square max-w-[85vw] max-h-[60vh] relative">
+          {/* Pet belly - Hero size */}
           <div className="w-full h-full bg-primary rounded-full relative pixel-creature blob-bounce">
-            {/* Multiple eyes looking around */}
-            <div className="absolute top-16 left-16 w-10 h-10 bg-accent rounded-full">
-              <div className="absolute top-2 left-2 w-4 h-4 bg-background rounded-full wiggle"></div>
+            {/* Multiple eyes looking around - responsive sizing */}
+            <div className="absolute top-[15%] left-[15%] w-[12%] h-[12%] bg-accent rounded-full">
+              <div className="absolute top-[20%] left-[20%] w-[40%] h-[40%] bg-background rounded-full wiggle"></div>
             </div>
-            <div className="absolute top-12 right-20 w-8 h-8 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-4 h-4 bg-background rounded-full wiggle" style={{animationDelay: '0.5s'}}></div>
+            <div className="absolute top-[10%] right-[20%] w-[10%] h-[10%] bg-accent rounded-full">
+              <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full wiggle" style={{animationDelay: '0.5s'}}></div>
             </div>
-            <div className="absolute top-20 right-12 w-9 h-9 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-4 h-4 bg-background rounded-full wiggle" style={{animationDelay: '1s'}}></div>
+            <div className="absolute top-[20%] right-[12%] w-[11%] h-[11%] bg-accent rounded-full">
+              <div className="absolute top-[15%] left-[15%] w-[45%] h-[45%] bg-background rounded-full wiggle" style={{animationDelay: '1s'}}></div>
             </div>
             
-            {/* Multiple tentacles waving */}
-            <div className="absolute -top-6 left-24 w-4 h-16 bg-primary rounded-full wiggle"></div>
-            <div className="absolute -top-4 right-24 w-4 h-12 bg-primary rounded-full wiggle" style={{animationDelay: '0.3s'}}></div>
-            <div className="absolute -left-6 top-28 w-16 h-4 bg-primary rounded-full wiggle" style={{animationDelay: '0.6s'}}></div>
-            <div className="absolute -right-6 top-24 w-12 h-4 bg-primary rounded-full wiggle" style={{animationDelay: '0.9s'}}></div>
-            <div className="absolute -bottom-6 left-28 w-4 h-16 bg-primary rounded-full wiggle" style={{animationDelay: '1.2s'}}></div>
+            {/* Multiple tentacles waving - responsive positioning */}
+            <div className="absolute -top-[6%] left-[35%] w-[4%] h-[20%] bg-primary rounded-full wiggle"></div>
+            <div className="absolute -top-[4%] right-[35%] w-[4%] h-[15%] bg-primary rounded-full wiggle" style={{animationDelay: '0.3s'}}></div>
+            <div className="absolute -left-[6%] top-[40%] w-[20%] h-[4%] bg-primary rounded-full wiggle" style={{animationDelay: '0.6s'}}></div>
+            <div className="absolute -right-[6%] top-[35%] w-[15%] h-[4%] bg-primary rounded-full wiggle" style={{animationDelay: '0.9s'}}></div>
+            <div className="absolute -bottom-[6%] left-[40%] w-[4%] h-[20%] bg-primary rounded-full wiggle" style={{animationDelay: '1.2s'}}></div>
 
-            {/* Happy expression */}
-            <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-16 h-8 bg-background rounded-full"></div>
+            {/* Happy expression - responsive sizing */}
+            <div className="absolute bottom-[20%] left-1/2 transform -translate-x-1/2 w-[20%] h-[10%] bg-background rounded-full"></div>
             
-            {/* Sparkles */}
+            {/* Sparkles - responsive distribution */}
             {[...Array(25)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 bg-accent pulse-glow"
+                className="absolute w-[1%] h-[1%] bg-accent pulse-glow"
                 style={{
                   left: `${20 + Math.random() * 60}%`,
                   top: `${20 + Math.random() * 60}%`,
@@ -99,16 +99,16 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Main content - add bottom padding to avoid button overlap */}
-      <div className="pb-24">
-        {/* Status text */}
-        <p className="font-pixel text-sm text-muted-foreground mb-6 text-center">
-          Your belly buddy is wiggling happily!
-          <br />
-          Ready for some weird food?
-        </p>
+        {/* Status text - mobile optimized */}
+        <div className="mt-4 text-center px-4">
+          <p className="font-pixel text-sm text-muted-foreground">
+            Your belly buddy is wiggling happily!
+          </p>
+          <p className="font-pixel text-sm text-muted-foreground">
+            Ready for some weird food?
+          </p>
+        </div>
       </div>
 
       {/* Sticky Action Button */}
