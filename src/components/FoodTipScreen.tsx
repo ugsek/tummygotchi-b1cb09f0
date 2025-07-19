@@ -119,8 +119,11 @@ const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackT
 
       {/* Bottom message */}
       <div className="border-2 border-accent bg-card p-4 mb-8 w-full max-w-md">
-        <p className="text-sm font-pixel text-foreground text-center">
+        <p className="text-sm font-pixel text-foreground text-center mb-2">
           {encouragement}
+        </p>
+        <p className="text-xs font-pixel text-muted-foreground text-center">
+          TIP: HEALTHY FOOD COMBOS BOOST WEIRDNESS 3X FASTER!
         </p>
       </div>
 

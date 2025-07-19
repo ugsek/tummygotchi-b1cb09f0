@@ -4,11 +4,11 @@ import { useState } from "react";
 
 interface GameScreenProps {
   petName: string;
+  weirdnessLevel: number;
   onFeedPet: () => void;
 }
 
-const GameScreen = ({ petName, onFeedPet }: GameScreenProps) => {
-  const [poopWeirdness, setPoopWeirdness] = useState(75);
+const GameScreen = ({ petName, weirdnessLevel, onFeedPet }: GameScreenProps) => {
   const [streak, setStreak] = useState(3);
 
   return (
@@ -28,16 +28,20 @@ const GameScreen = ({ petName, onFeedPet }: GameScreenProps) => {
 
       {/* Poop Weirdness Meter */}
       <div className="mb-8">
-        <div className="font-pixel text-sm text-accent mb-2">
-          POOP WEIRDNESS
+        <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
+          <span>POOP WEIRDNESS</span>
+          <span>{Math.round(weirdnessLevel)}/100</span>
         </div>
         <div className="relative">
           <Progress 
-            value={poopWeirdness} 
+            value={weirdnessLevel} 
             className="h-4 bg-muted border-2 border-accent"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-80 rounded"></div>
         </div>
+        <p className="font-pixel text-xs text-muted-foreground mt-1 text-center">
+          {weirdnessLevel >= 100 ? "READY TO POOP!" : "NEED MORE FOOD TO POOP!"}
+        </p>
       </div>
 
       {/* Main pet display */}
