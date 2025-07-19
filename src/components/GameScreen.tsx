@@ -27,19 +27,8 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
         </div>
       </div>
 
-      {/* Daily Progress & Poop Weirdness Meter */}
+      {/* Poop Weirdness Meter */}
       <div className={`mb-8 ${daysLogged >= 3 && weirdnessLevel >= 100 ? 'animate-pulse' : ''}`}>
-        <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
-          <span>DAILY PROGRESS</span>
-          <span>{daysLogged}/3 DAYS</span>
-        </div>
-        <div className="h-2 bg-muted border-2 border-accent mb-4">
-          <div 
-            className="h-full bg-gradient-to-r from-accent to-primary"
-            style={{ width: `${(daysLogged / 3) * 100}%` }}
-          />
-        </div>
-        
         <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
           <span>POOP WEIRDNESS</span>
           <span>{Math.round(weirdnessLevel)}/100</span>
@@ -79,8 +68,7 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
             : 'text-muted-foreground'
         }`}>
           {daysLogged >= 3 && weirdnessLevel >= 100 ? "🎉 READY TO POOP! 💩✨" : 
-           daysLogged < 3 ? `NEED ${3 - daysLogged} MORE DAYS OF HEALTHY EATING!` :
-           "NEED MORE HEALTHY FOOD TODAY!"}
+           "EAT MORE WEIRD FOOD TO FILL THE METER!"}
         </p>
       </div>
 
