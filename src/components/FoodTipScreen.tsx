@@ -123,7 +123,7 @@ const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackT
           {encouragement}
         </p>
         <p className="text-xs font-pixel text-muted-foreground text-center">
-          TIP: HEALTHY FOOD COMBOS BOOST WEIRDNESS 3X FASTER!
+          NEED 3 DAYS OF HEALTHY EATING TO UNLOCK POOPS!
         </p>
       </div>
 

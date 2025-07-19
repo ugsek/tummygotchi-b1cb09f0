@@ -29,6 +29,8 @@ const Index = () => {
   const [lastPoopType, setLastPoopType] = useState<string>('');
   const [showFoodTipAfterPoop, setShowFoodTipAfterPoop] = useState<boolean>(false);
   const [weirdnessLevel, setWeirdnessLevel] = useState<number>(0);
+  const [daysLogged, setDaysLogged] = useState<number>(0);
+  const [lastLoggedDate, setLastLoggedDate] = useState<string>('');
 
   const handleStart = () => {
     setGameState('goal-selection');
@@ -82,10 +84,31 @@ const Index = () => {
   };
 
   const handleFoodReaction = (weirdnessBoost: number) => {
-    const newWeirdness = Math.min(100, weirdnessLevel + (weirdnessBoost * 33.33));
+    const today = new Date().toDateString();
+    let newDaysLogged = daysLogged;
+    
+    // Check if this is a new day
+    if (lastLoggedDate !== today) {
+      newDaysLogged = daysLogged + 1;
+      setDaysLogged(newDaysLogged);
+      setLastLoggedDate(today);
+    }
+    
+    // Handle inappropriate content penalty
+    if (weirdnessBoost < 0) {
+      const newWeirdness = Math.max(0, weirdnessLevel + (weirdnessBoost * 10));
+      setWeirdnessLevel(newWeirdness);
+      setGameState('game');
+      return;
+    }
+    
+    // Normal weirdness boost (but only significant on healthy days)
+    const dailyBoost = weirdnessBoost * 10; // Each healthy meal adds 10-30 points
+    const newWeirdness = Math.min(100, weirdnessLevel + dailyBoost);
     setWeirdnessLevel(newWeirdness);
     
-    if (newWeirdness >= 100) {
+    // Need 3 days of logging AND 100% weirdness to poop
+    if (newDaysLogged >= 3 && newWeirdness >= 100) {
       setShowFoodTipAfterPoop(true);
       setGameState('ready-to-poop');
     } else {
@@ -100,6 +123,7 @@ const Index = () => {
   const handlePoopComplete = (poopType: string) => {
     setLastPoopType(poopType);
     setWeirdnessLevel(0); // Reset weirdness after pooping
+    setDaysLogged(0); // Reset days counter
     if (showFoodTipAfterPoop) {
       setGameState('food-tip');
       setShowFoodTipAfterPoop(false);
@@ -172,6 +196,7 @@ const Index = () => {
         <GameScreen 
           petName={petName} 
           weirdnessLevel={weirdnessLevel}
+          daysLogged={daysLogged}
           onFeedPet={handleFeedPet} 
         />
       )}

@@ -28,19 +28,37 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
     )
   );
 
+  const hasInappropriateContent = foods.some(food => {
+    const inappropriateWords = ['shit', 'ass', 'poop', 'pee', 'human', 'body', 'death', 'kill', 'blood', 'gore', 'sex', 'drug', 'tobacco', 'alcohol', 'poison', 'toxic', 'chemical', 'soap', 'dirt', 'mud', 'plastic', 'metal', 'paper'];
+    return inappropriateWords.some(word => 
+      food.toLowerCase().includes(word.toLowerCase())
+    );
+  });
+
   useEffect(() => {
     const fetchReaction = async () => {
       try {
         setLoading(true);
+        
+        // Handle inappropriate content locally first
+        if (hasInappropriateContent) {
+          setReaction("🤢");
+          setMessage("THAT'S NOT FOOD! TRY REAL FOOD!");
+          setBellyStatus("Belly is confused and sad!");
+          setWeirdnessBoost(-1);
+          setNewWeirdness(Math.max(0, currentWeirdness - 10));
+          setLoading(false);
+          return;
+        }
+        
         const response = await generateFoodReaction(foods, userGoal, isHealthy);
         setReaction(response.reaction || "🤤");
         setMessage(response.message || "BELLY LIKES THIS WEIRD COMBO!");
         setBellyStatus(response.bellyStatus || "Gurgling with excitement!");
         
-        // Calculate weirdness boost
+        // Calculate weirdness boost for daily system
         let boost = response.weirdnessBoost || 2;
         
-        // Override with our logic if needed
         if (isHealthy) {
           boost = Math.max(boost, 3); // Healthy food gets at least 3
         } else if (foods.some(food => unhealthyFoods.some(bad => food.toLowerCase().includes(bad)))) {
@@ -48,7 +66,7 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
         }
         
         setWeirdnessBoost(boost);
-        setNewWeirdness(Math.min(100, currentWeirdness + (boost * 33.33))); // 3 logs = 100%
+        setNewWeirdness(Math.min(100, currentWeirdness + (boost * 10))); // Daily boost system
       } catch (error) {
         console.error('Failed to generate reaction:', error);
         // Fallback
@@ -56,14 +74,14 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
         setMessage("BELLY LIKES THIS WEIRD COMBO!");
         setBellyStatus("Gurgling with excitement!");
         setWeirdnessBoost(2);
-        setNewWeirdness(Math.min(100, currentWeirdness + 33.33));
+        setNewWeirdness(Math.min(100, currentWeirdness + 20));
       } finally {
         setLoading(false);
       }
     };
 
     fetchReaction();
-  }, [foods, userGoal, isHealthy, currentWeirdness]);
+  }, [foods, userGoal, isHealthy, currentWeirdness, hasInappropriateContent]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
@@ -126,7 +144,7 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
       {/* Weirdness boost indicator */}
       <div className="mb-8 w-full max-w-md">
         <div className="font-pixel text-sm text-accent mb-2 text-center">
-          WEIRDNESS BOOST: +{weirdnessBoost}/3
+          {weirdnessBoost >= 0 ? `DAILY BOOST: +${weirdnessBoost}/3` : "PENALTY: -1 (NOT FOOD!)"}
         </div>
         <div className="flex justify-between text-xs font-pixel text-muted-foreground mb-2">
           <span>BEFORE</span>
@@ -143,7 +161,8 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
           />
         </div>
         <p className="font-pixel text-xs text-muted-foreground text-center mt-2">
-          {isHealthy ? "HEALTHY COMBO = MORE BOOST!" : "JUNK FOOD = LESS BOOST!"}
+          {weirdnessBoost < 0 ? "ONLY REAL FOOD COUNTS!" :
+           isHealthy ? "HEALTHY FOOD = BIG BOOST!" : "JUNK FOOD = SMALL BOOST!"}
         </p>
       </div>
 

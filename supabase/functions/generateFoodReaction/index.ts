@@ -19,6 +19,36 @@ serve(async (req) => {
 
     console.log('Generating food reaction for:', { foods, userGoal, isHealthy });
 
+    // Check for inappropriate or non-food items
+    const inappropriateWords = ['shit', 'ass', 'poop', 'pee', 'human', 'body', 'death', 'kill', 'blood', 'gore', 'sex', 'drug', 'tobacco', 'alcohol', 'poison', 'toxic', 'chemical', 'soap', 'dirt', 'mud', 'plastic', 'metal', 'paper'];
+    const hasInappropriateContent = foods.some(food => 
+      inappropriateWords.some(word => 
+        food.toLowerCase().includes(word.toLowerCase())
+      )
+    );
+
+    // Check if inputs are actual foods
+    const commonFoods = ['apple', 'banana', 'orange', 'beef', 'chicken', 'fish', 'rice', 'bread', 'milk', 'cheese', 'egg', 'potato', 'tomato', 'carrot', 'broccoli', 'spinach', 'pasta', 'pizza', 'burger', 'salad', 'soup', 'sandwich', 'yogurt', 'nuts', 'berries', 'avocado', 'quinoa', 'tofu', 'beans', 'lentils'];
+    const areActualFoods = foods.some(food => 
+      commonFoods.some(realFood => 
+        food.toLowerCase().includes(realFood.toLowerCase())
+      )
+    );
+
+    // Handle inappropriate content or non-foods
+    if (hasInappropriateContent || !areActualFoods) {
+      console.log('Inappropriate or non-food content detected');
+      return new Response(JSON.stringify({
+        reaction: "🤢",
+        message: "THAT'S NOT FOOD! TRY REAL FOOD!",
+        bellyStatus: "Belly is confused and sad!",
+        weirdnessBoost: -1, // Penalty for bad input
+        isInappropriate: true
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -30,15 +60,23 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: `You are a quirky Tummygotchi pet giving funny reactions to food. Be playful, weird, and use digestive humor!
+            content: `You are a health-focused Tummygotchi pet that ONLY accepts real food items. 
             
-            Return a JSON object with:
-            - reaction: a fun emoji reaction (🤤, 😋, 🤨, 😵‍💫, etc.)
-            - message: a short funny comment about the food (max 50 chars)
+            IMPORTANT: If any input contains non-food items, inappropriate content, or fake foods, respond with:
+            {
+              "reaction": "🤢",
+              "message": "THAT'S NOT FOOD!",
+              "bellyStatus": "Belly rejects non-food!",
+              "weirdnessBoost": -1
+            }
+            
+            For REAL FOODS ONLY, return:
+            - reaction: fun food emoji (🤤, 😋, 🤨, 😵‍💫, etc.)
+            - message: short funny comment about the food (max 40 chars)
             - bellyStatus: describe how the belly feels (max 40 chars)
-            - weirdnessBoost: number 1-3 (healthy combos get 3, junk gets 1)
+            - weirdnessBoost: number 1-3 (healthy=3, mixed=2, junk=1)
             
-            Make it silly and digestive-focused!`
+            Encourage healthy eating and reject anything that isn't real food!`
           },
           {
             role: 'user',
