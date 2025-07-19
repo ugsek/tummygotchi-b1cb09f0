@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { generateFoodTip } from "@/lib/generateFoodTip";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface FoodTip {
   emoji: string;
@@ -20,6 +23,10 @@ const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackT
   const [tips, setTips] = useState<FoodTip[]>([]);
   const [encouragement, setEncouragement] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [askingQuestion, setAskingQuestion] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchTips = async () => {
@@ -44,6 +51,36 @@ const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackT
 
     fetchTips();
   }, [foods, userGoal, poopType]);
+
+  const askQuestion = async () => {
+    if (!question.trim()) return;
+    
+    try {
+      setAskingQuestion(true);
+      const { data, error } = await supabase.functions.invoke('foodQA', {
+        body: {
+          question: question.trim(),
+          petName,
+          userGoal
+        }
+      });
+
+      if (error) throw error;
+
+      setAnswer(data.answer || "BURRRP! Sorry, my brain blob is having a wiggle moment! Try asking again! 🤪");
+      
+    } catch (error) {
+      console.error('Error asking question:', error);
+      toast({
+        title: "Oops!",
+        description: "Couldn't get an answer right now. Try again!",
+        variant: "destructive",
+      });
+      setAnswer("BURRRP! Sorry, my brain blob is having a wiggle moment! Try asking again! 🤪");
+    } finally {
+      setAskingQuestion(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-background flex flex-col p-4">
       {/* Title */}
@@ -189,6 +226,69 @@ const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackT
             </div>
           </>
         )}
+      </div>
+
+      {/* Interactive Q&A Section */}
+      <div className="border-4 border-accent bg-card p-4 mb-6 w-full max-w-md mx-auto rounded-lg">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="text-xl">🤔</div>
+          <h2 className="font-pixel text-base text-accent">ASK {petName.toUpperCase()}!</h2>
+        </div>
+        
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <Input
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="Should I eat more vegetables?"
+              className="font-pixel text-xs bg-background border-2 border-muted focus:border-accent"
+              onKeyPress={(e) => e.key === 'Enter' && askQuestion()}
+              disabled={askingQuestion}
+            />
+            <Button
+              onClick={askQuestion}
+              disabled={!question.trim() || askingQuestion}
+              className="pixel-button text-xs px-3"
+            >
+              {askingQuestion ? "..." : "ASK!"}
+            </Button>
+          </div>
+
+          {answer && (
+            <div className="border-2 border-accent bg-accent/10 p-3 rounded-lg animate-fade-in">
+              <div className="flex items-start gap-2">
+                <div className="text-lg">💬</div>
+                <div className="flex-1">
+                  <p className="font-pixel text-xs text-foreground leading-relaxed">
+                    {answer}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Suggested questions */}
+          <div className="text-center">
+            <p className="font-pixel text-xs text-muted-foreground mb-2">TRY ASKING:</p>
+            <div className="flex flex-wrap gap-1 justify-center">
+              {[
+                "What vegetables are yummy?",
+                "Is fruit good for me?",
+                "How much water?",
+                "What about snacks?"
+              ].map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => setQuestion(suggestion)}
+                  className="font-pixel text-xs px-2 py-1 border border-accent/50 bg-accent/10 hover:bg-accent/20 rounded transition-colors"
+                  disabled={askingQuestion}
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Bottom message - More encouraging */}
