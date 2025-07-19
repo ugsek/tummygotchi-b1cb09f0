@@ -32,7 +32,7 @@ const Index = () => {
   const [weirdnessLevel, setWeirdnessLevel] = useState<number>(0);
   const [daysLogged, setDaysLogged] = useState<number>(0);
   const [lastLoggedDate, setLastLoggedDate] = useState<string>('');
-  const [unlockedPoops, setUnlockedPoops] = useState<string[]>(['basic_blob']);
+  const [unlockedPoops, setUnlockedPoops] = useState<string[]>(['basic_blob', 'mushy_mound', 'rainbow_swirl']);
 
   const handleStart = () => {
     setGameState('goal-selection');
