@@ -14,19 +14,6 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
 
   return (
     <div className="min-h-screen bg-background p-4">
-      {/* Header stats */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="font-pixel text-sm text-accent">
-          STREAK: {streak}
-        </div>
-        <div className="font-pixel text-lg text-primary pixel-text-glow">
-          {petName.toUpperCase()}
-        </div>
-        <div className="font-pixel text-sm text-accent">
-          LV.3
-        </div>
-      </div>
-
       {/* Poop Weirdness Meter */}
       <div className={`mb-8 ${daysLogged >= 3 && weirdnessLevel >= 100 ? 'animate-pulse' : ''}`}>
         <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
