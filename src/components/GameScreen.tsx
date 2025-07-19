@@ -1,21 +1,95 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { 
+  getLevelTitle, 
+  getExperienceToNextLevel, 
+  getExperienceForLevel 
+} from "@/lib/levelingSystem";
+import { 
+  generateFoodBasedMessage, 
+  generateChatNudgeMessage, 
+  shouldShowChatNudge 
+} from "@/lib/petMessages";
 
 interface GameScreenProps {
   petName: string;
   weirdnessLevel: number;
   daysLogged: number;
+  level: number;
+  experiencePoints: number;
+  lastEatenFoods: string[];
+  totalMealsEaten: number;
   onFeedPet: () => void;
 }
 
-const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScreenProps) => {
+const GameScreen = ({ 
+  petName, 
+  weirdnessLevel, 
+  daysLogged, 
+  level, 
+  experiencePoints, 
+  lastEatenFoods, 
+  totalMealsEaten, 
+  onFeedPet 
+}: GameScreenProps) => {
   const [streak, setStreak] = useState(3);
+  const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [showChatNudge, setShowChatNudge] = useState<boolean>(false);
+
+  // Calculate level progress
+  const currentLevelExp = getExperienceForLevel(level);
+  const nextLevelExp = level >= 100 ? currentLevelExp : getExperienceForLevel(level + 1);
+  const expToNext = getExperienceToNextLevel(experiencePoints, level);
+  const levelProgress = level >= 100 ? 100 : ((experiencePoints - currentLevelExp) / (nextLevelExp - currentLevelExp)) * 100;
+
+  // Generate funny messages based on last eaten food or chat nudges
+  useEffect(() => {
+    const shouldNudge = shouldShowChatNudge(totalMealsEaten);
+    setShowChatNudge(shouldNudge);
+    
+    if (shouldNudge) {
+      setCurrentMessage(generateChatNudgeMessage(petName));
+    } else {
+      setCurrentMessage(generateFoodBasedMessage(lastEatenFoods, petName));
+    }
+  }, [lastEatenFoods, totalMealsEaten, petName]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Sticky Weirdness Meter - Always visible at top */}
+      {/* Sticky Header with Level and Weirdness */}
       <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b border-accent/20 p-4 z-10">
+        {/* Level Display */}
+        <div className="mb-3">
+          <div className="flex justify-between items-center mb-2">
+            <div className="flex items-center gap-2">
+              <span className="font-pixel text-lg text-accent">LVL {level}</span>
+              <span className="font-pixel text-xs text-muted-foreground">
+                {getLevelTitle(level)}
+              </span>
+            </div>
+            {level < 100 && (
+              <span className="font-pixel text-xs text-muted-foreground">
+                {expToNext} XP to next
+              </span>
+            )}
+          </div>
+          {level < 100 && (
+            <Progress 
+              value={levelProgress} 
+              className="h-2 bg-muted/50 border border-accent/30"
+            />
+          )}
+          {level >= 100 && (
+            <div className="text-center">
+              <span className="font-pixel text-xs text-accent animate-pulse">
+                ⭐ MAX LEVEL ACHIEVED! ⭐
+              </span>
+            </div>
+          )}
+        </div>
+        
+        {/* Weirdness Meter */}
         <div className={`${weirdnessLevel >= 100 ? 'animate-pulse' : ''}`}>
           <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
             <span>POOP WEIRDNESS</span>
@@ -103,14 +177,30 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
             </div>
           </div>
 
-          {/* Status text - mobile optimized */}
+          {/* Dynamic Pet Messages */}
           <div className="mt-4 text-center px-4">
-            <p className="font-pixel text-sm text-muted-foreground">
-              Your belly buddy is wiggling happily!
-            </p>
-            <p className="font-pixel text-sm text-muted-foreground">
-              Ready for some healthy food?
-            </p>
+            <div className={`
+              border-2 border-accent bg-accent/10 p-4 rounded-lg relative
+              ${showChatNudge ? 'animate-pulse border-primary bg-primary/10' : ''}
+            `}>
+              <p className="font-pixel text-sm text-foreground leading-relaxed">
+                {currentMessage}
+              </p>
+              {showChatNudge && (
+                <div className="absolute -top-2 -right-2">
+                  <div className="w-4 h-4 bg-primary rounded-full animate-bounce flex items-center justify-center">
+                    <span className="text-xs">💬</span>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Stats Display */}
+            <div className="flex justify-center gap-4 mt-3 text-xs font-pixel text-muted-foreground">
+              <span>Meals: {totalMealsEaten}</span>
+              <span>XP: {experiencePoints}</span>
+              <span>Days: {daysLogged}</span>
+            </div>
           </div>
         </div>
       </div>

@@ -20,6 +20,7 @@ import PlopScreen from "@/components/PlopScreen";
 import ChatScreen from "@/components/ChatScreen";
 import { generatePoopFromCombination } from "@/lib/poopGenerator";
 import { getPoopById } from "@/data/poopDatabase";
+import { calculateLevel, calculateExperienceGain } from "@/lib/levelingSystem";
 
 type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex' | 'chat';
 
@@ -36,6 +37,10 @@ const Index = () => {
   const [daysLogged, setDaysLogged] = useState<number>(0);
   const [lastLoggedDate, setLastLoggedDate] = useState<string>('');
   const [unlockedPoops, setUnlockedPoops] = useState<string[]>(['basic_blob', 'mushy_mound', 'rainbow_swirl']);
+  const [level, setLevel] = useState<number>(1);
+  const [experiencePoints, setExperiencePoints] = useState<number>(0);
+  const [lastEatenFoods, setLastEatenFoods] = useState<string[]>([]);
+  const [totalMealsEaten, setTotalMealsEaten] = useState<number>(0);
 
   const handleStart = () => {
     setGameState('goal-selection');
@@ -102,12 +107,29 @@ const Index = () => {
       setLastLoggedDate(today);
     }
     
+    // Track last eaten foods and total meals
+    setLastEatenFoods(selectedFoods);
+    setTotalMealsEaten(prev => prev + 1);
+    
     // Handle inappropriate content penalty
     if (weirdnessBoost < 0) {
       const newWeirdness = Math.max(0, weirdnessLevel + (weirdnessBoost * 10));
       setWeirdnessLevel(newWeirdness);
       setGameState('game');
       return;
+    }
+    
+    // Calculate experience gain
+    const isHealthy = weirdnessBoost > 2;
+    const expGain = calculateExperienceGain(selectedFoods, isHealthy, weirdnessBoost);
+    const newExp = experiencePoints + expGain;
+    const newLevel = calculateLevel(newExp);
+    
+    // Update experience and level
+    setExperiencePoints(newExp);
+    if (newLevel > level) {
+      setLevel(newLevel);
+      // Could show level up animation here in the future
     }
     
     // Normal weirdness boost
@@ -222,6 +244,10 @@ const Index = () => {
           petName={petName} 
           weirdnessLevel={weirdnessLevel}
           daysLogged={daysLogged}
+          level={level}
+          experiencePoints={experiencePoints}
+          lastEatenFoods={lastEatenFoods}
+          totalMealsEaten={totalMealsEaten}
           onFeedPet={handleFeedPet} 
         />
       )}
