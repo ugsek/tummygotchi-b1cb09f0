@@ -25,7 +25,7 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-6">
+    <div className="min-h-screen bg-background flex flex-col p-6 pb-4">
       {/* Header */}
       <div className="border-4 border-accent bg-card p-4 mb-6">
         <h1 className="text-2xl font-pixel text-foreground text-center pixel-text-glow">
@@ -37,7 +37,7 @@ const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: Poopdex
       </div>
 
       {/* Collection grid */}
-      <div className="grid grid-cols-4 gap-3 mb-6 flex-1 overflow-y-auto">
+      <div className={`grid grid-cols-4 gap-3 mb-6 overflow-y-auto ${selectedPoop ? 'flex-1' : 'flex-1'}`}>
         {POOP_DATABASE.map((poop, index) => {
           const isUnlocked = unlockedPoops.includes(poop.id);
           const isSelected = selectedPoop?.id === poop.id;
