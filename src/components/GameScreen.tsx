@@ -11,6 +11,10 @@ import {
   generateChatNudgeMessage, 
   shouldShowChatNudge 
 } from "@/lib/petMessages";
+import { 
+  getCurrentMealPeriod, 
+  getMealTimingComment 
+} from "@/lib/timeSensitiveMessages";
 
 interface GameScreenProps {
   petName: string;
@@ -36,6 +40,8 @@ const GameScreen = ({
   const [streak, setStreak] = useState(3);
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [showChatNudge, setShowChatNudge] = useState<boolean>(false);
+  const [currentTime, setCurrentTime] = useState<string>("");
+  const [mealPeriod, setMealPeriod] = useState<string>("");
 
   // Calculate level progress
   const currentLevelExp = getExperienceForLevel(level);
@@ -45,21 +51,36 @@ const GameScreen = ({
 
   // Generate funny messages based on last eaten food or chat nudges
   useEffect(() => {
-    const shouldNudge = shouldShowChatNudge(totalMealsEaten);
-    setShowChatNudge(shouldNudge);
+    const updateTimeAndMessages = () => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setCurrentTime(timeString);
+      setMealPeriod(getCurrentMealPeriod());
+      
+      const shouldNudge = shouldShowChatNudge(totalMealsEaten);
+      setShowChatNudge(shouldNudge);
+      
+      if (shouldNudge) {
+        setCurrentMessage(generateChatNudgeMessage(petName));
+      } else {
+        setCurrentMessage(generateFoodBasedMessage(lastEatenFoods, petName, totalMealsEaten));
+      }
+    };
+
+    // Update immediately
+    updateTimeAndMessages();
     
-    if (shouldNudge) {
-      setCurrentMessage(generateChatNudgeMessage(petName));
-    } else {
-      setCurrentMessage(generateFoodBasedMessage(lastEatenFoods, petName));
-    }
+    // Update every minute to keep time current
+    const interval = setInterval(updateTimeAndMessages, 60000);
+    
+    return () => clearInterval(interval);
   }, [lastEatenFoods, totalMealsEaten, petName]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Sticky Header with Level and Weirdness */}
       <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b border-accent/20 p-4 z-10">
-        {/* Level Display */}
+        {/* Level and Time Display */}
         <div className="mb-3">
           <div className="flex justify-between items-center mb-2">
             <div className="flex items-center gap-2">
@@ -68,6 +89,14 @@ const GameScreen = ({
                 {getLevelTitle(level)}
               </span>
             </div>
+            <div className="text-right">
+              <div className="font-pixel text-xs text-accent">{currentTime}</div>
+              <div className="font-pixel text-xs text-muted-foreground capitalize">
+                {mealPeriod.replace('_', ' ')} time
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-between items-center">
             {level < 100 && (
               <span className="font-pixel text-xs text-muted-foreground">
                 {expToNext} XP to next

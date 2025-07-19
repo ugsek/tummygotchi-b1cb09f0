@@ -1,11 +1,70 @@
 // Funny pet messages based on last eaten foods and chat nudges
+import { 
+  getMealTimingComment, 
+  getHungerByTime, 
+  shouldShowTimeSensitiveMessage,
+  getCurrentMealPeriod 
+} from "./timeSensitiveMessages";
+import { getTimeSinceLastMeal, getWeekdayContextMessage } from "./hungerTimingMessages";
 
-export const generateFoodBasedMessage = (lastEatenFoods: string[], petName: string): string => {
+export const generateFoodBasedMessage = (lastEatenFoods: string[], petName: string, totalMealsEaten: number = 0): string => {
+  // Check if we should show time-sensitive message instead
+  if (shouldShowTimeSensitiveMessage()) {
+    // Sometimes show weekday context instead of meal timing
+    if (Math.random() < 0.3) {
+      return getWeekdayContextMessage(petName);
+    }
+    return getMealTimingComment(petName);
+  }
+
   if (lastEatenFoods.length === 0) {
-    return "I'm getting pretty hungry... My belly is making weird noises! 🤤";
+    // Show time-appropriate hunger message or time since last meal
+    if (Math.random() < 0.4) {
+      return getTimeSinceLastMeal(lastEatenFoods, totalMealsEaten);
+    }
+    return getHungerByTime();
   }
 
   const recentFood = lastEatenFoods[lastEatenFoods.length - 1];
+  const currentMealPeriod = getCurrentMealPeriod();
+  
+  // Add time context to food reactions occasionally
+  const useTimeContext = Math.random() < 0.4;
+  
+  if (useTimeContext) {
+    const timeContextMessages: Record<string, string[]> = {
+      breakfast: [
+        `${recentFood.toUpperCase()} for breakfast? My belly approves of this morning choice! 🌅`,
+        `Starting the day with ${recentFood}! My belly is ready to conquer the world! 💪`,
+        `Morning fuel-up with ${recentFood}! My belly's engine is purring! 🏎️`
+      ],
+      lunch: [
+        `${recentFood.toUpperCase()} lunch break! My belly is taking notes for next time! 📝`,
+        `Midday ${recentFood} power-up! My belly's productivity just increased! 📈`,
+        `Lunch hour ${recentFood}! My belly is living its best life! ✨`
+      ],
+      dinner: [
+        `Evening ${recentFood} feast! My belly is putting on its fancy napkin! 🍽️`,
+        `Dinner time ${recentFood}! My belly is ready for the grand finale! 🎭`,
+        `${recentFood.toUpperCase()} for dinner? My belly is having a five-star experience! ⭐`
+      ],
+      late_night: [
+        `Late night ${recentFood}? My belly is impressed by your dedication! 🌙`,
+        `${recentFood.toUpperCase()} at this hour? My belly salutes your boldness! 🫡`,
+        `Night owl ${recentFood} session! My belly is staying up past bedtime! 🦉`
+      ],
+      midnight: [
+        `MIDNIGHT ${recentFood.toUpperCase()}! My belly is officially nocturnal! 🦇`,
+        `3 AM ${recentFood}? My belly questions your life choices... but respects them! 😅`,
+        `Witching hour ${recentFood}! My belly is brewing midnight magic! 🔮`
+      ]
+    };
+    
+    const contextMessages = timeContextMessages[currentMealPeriod];
+    if (contextMessages && Math.random() < 0.6) {
+      return contextMessages[Math.floor(Math.random() * contextMessages.length)];
+    }
+  }
   const foodMessages: Record<string, string[]> = {
     // Healthy foods
     apple: [

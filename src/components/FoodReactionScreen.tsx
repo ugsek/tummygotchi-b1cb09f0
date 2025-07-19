@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 import { generateFoodReaction } from "@/lib/generateFoodReaction";
+import { getCurrentMealPeriod } from "@/lib/timeSensitiveMessages";
 
 interface FoodReactionScreenProps {
   foods: string[];
@@ -52,8 +53,13 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
         }
         
         const response = await generateFoodReaction(foods, userGoal, isHealthy);
+        
+        // Add time context to the reaction message
+        const mealPeriod = getCurrentMealPeriod();
+        const timeContextualMessage = addTimeContextToMessage(response.message || "BELLY LIKES THIS WEIRD COMBO!", mealPeriod, foods);
+        
         setReaction(response.reaction || "🤤");
-        setMessage(response.message || "BELLY LIKES THIS WEIRD COMBO!");
+        setMessage(timeContextualMessage);
         setBellyStatus(response.bellyStatus || "Gurgling with excitement!");
         
         // Calculate weirdness boost for daily system
@@ -82,6 +88,52 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
 
     fetchReaction();
   }, [foods, userGoal, isHealthy, currentWeirdness, hasInappropriateContent]);
+
+  // Add time context to reaction messages
+  const addTimeContextToMessage = (originalMessage: string, mealPeriod: string, foods: string[]): string => {
+    const hour = new Date().getHours();
+    
+    // Late night eating (9 PM - 5 AM)
+    if (hour >= 21 || hour <= 5) {
+      const lateNightSuffixes = [
+        "...at this hour? My belly is a night owl! 🦉",
+        "...for a midnight snack? Bold choice! 🌙",
+        "...while everyone's sleeping? I respect the dedication! 😴",
+        "...during vampire hours? My belly stays up past bedtime! 🧛‍♂️"
+      ];
+      if (Math.random() < 0.7) {
+        return originalMessage + " " + lateNightSuffixes[Math.floor(Math.random() * lateNightSuffixes.length)];
+      }
+    }
+    
+    // Early morning (5-8 AM)
+    if (hour >= 5 && hour <= 8) {
+      const morningPrefixes = [
+        "GOOD MORNING! ",
+        "EARLY BIRD SPECIAL! ",
+        "SUNRISE FUEL-UP! ",
+        "DAWN PATROL DINING! "
+      ];
+      if (Math.random() < 0.6) {
+        return morningPrefixes[Math.floor(Math.random() * morningPrefixes.length)] + originalMessage;
+      }
+    }
+    
+    // Perfect meal timing
+    if ((hour >= 11 && hour <= 13) || (hour >= 17 && hour <= 19)) {
+      const perfectTimingSuffixes = [
+        "Perfect timing! 👌",
+        "Right on schedule! ⏰", 
+        "Textbook meal timing! 📚",
+        "My belly's internal clock approves! ⏰"
+      ];
+      if (Math.random() < 0.5) {
+        return originalMessage + " " + perfectTimingSuffixes[Math.floor(Math.random() * perfectTimingSuffixes.length)];
+      }
+    }
+    
+    return originalMessage;
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col p-4">
