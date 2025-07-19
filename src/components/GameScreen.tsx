@@ -28,7 +28,7 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
       </div>
 
       {/* Daily Progress & Poop Weirdness Meter */}
-      <div className="mb-8">
+      <div className={`mb-8 ${daysLogged >= 3 && weirdnessLevel >= 100 ? 'animate-pulse' : ''}`}>
         <div className="font-pixel text-sm text-accent mb-2 flex justify-between">
           <span>DAILY PROGRESS</span>
           <span>{daysLogged}/3 DAYS</span>
@@ -44,15 +44,41 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
           <span>POOP WEIRDNESS</span>
           <span>{Math.round(weirdnessLevel)}/100</span>
         </div>
-        <div className="relative">
+        <div className={`relative ${daysLogged >= 3 && weirdnessLevel >= 100 ? 'animate-bounce' : ''}`}>
           <Progress 
             value={weirdnessLevel} 
-            className="h-4 bg-muted border-2 border-accent"
+            className={`h-4 bg-muted border-2 border-accent ${
+              daysLogged >= 3 && weirdnessLevel >= 100 
+                ? 'shadow-lg shadow-accent/50 border-accent animate-pulse' 
+                : ''
+            }`}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-80 rounded"></div>
+          
+          {/* Sparkle effects when ready */}
+          {daysLogged >= 3 && weirdnessLevel >= 100 && (
+            <>
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-2 h-2 bg-accent rounded-full animate-ping"
+                  style={{
+                    left: `${10 + Math.random() * 80}%`,
+                    top: `${-50 + Math.random() * 150}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: '1s'
+                  }}
+                />
+              ))}
+            </>
+          )}
         </div>
-        <p className="font-pixel text-xs text-muted-foreground mt-1 text-center">
-          {daysLogged >= 3 && weirdnessLevel >= 100 ? "READY TO POOP!" : 
+        <p className={`font-pixel text-xs mt-1 text-center ${
+          daysLogged >= 3 && weirdnessLevel >= 100 
+            ? 'text-accent text-lg animate-bounce pixel-text-glow' 
+            : 'text-muted-foreground'
+        }`}>
+          {daysLogged >= 3 && weirdnessLevel >= 100 ? "🎉 READY TO POOP! 💩✨" : 
            daysLogged < 3 ? `NEED ${3 - daysLogged} MORE DAYS OF HEALTHY EATING!` :
            "NEED MORE HEALTHY FOOD TODAY!"}
         </p>
@@ -111,9 +137,13 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
       <div className="space-y-4">
         <Button 
           onClick={onFeedPet}
-          className="w-full pixel-button text-xl py-6 hover:scale-105 transform transition-all"
+          className={`w-full pixel-button text-xl py-6 transition-all ${
+            daysLogged >= 3 && weirdnessLevel >= 100 
+              ? 'animate-pulse bg-gradient-to-r from-accent to-primary border-accent shadow-lg shadow-accent/50' 
+              : 'hover:scale-105 transform'
+          }`}
         >
-          FEED ME 🍴
+          {daysLogged >= 3 && weirdnessLevel >= 100 ? '💩 POOP TIME! 💩' : 'FEED ME 🍴'}
         </Button>
       </div>
     </div>
