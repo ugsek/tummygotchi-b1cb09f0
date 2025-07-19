@@ -1,22 +1,28 @@
 import { Button } from "@/components/ui/button";
+import { getPoopById } from "@/data/poopDatabase";
 
 interface NewPoopUnlockedScreenProps {
   poopType: string;
+  foods: string[];
   onAddToPoopdex: () => void;
   onGetFoodTip: () => void;
 }
 
-const poopData = {
-  crusty_wiggler: {
-    name: "CRUSTY WIGGLER",
-    weirdness: 5,
-    triggers: "BROCCOLI + SUGAR + RICE",
-    description: "Add a veggie next time to unlock a rare glitter dump!"
+const NewPoopUnlockedScreen = ({ poopType, foods, onAddToPoopdex, onGetFoodTip }: NewPoopUnlockedScreenProps) => {
+  const poop = getPoopById(poopType);
+  
+  if (!poop) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+        <h1 className="text-xl font-pixel text-foreground mb-8 text-center">
+          POOP NOT FOUND!
+        </h1>
+        <Button onClick={onAddToPoopdex} className="pixel-button">
+          CONTINUE
+        </Button>
+      </div>
+    );
   }
-};
-
-const NewPoopUnlockedScreen = ({ poopType, onAddToPoopdex, onGetFoodTip }: NewPoopUnlockedScreenProps) => {
-  const poop = poopData[poopType as keyof typeof poopData];
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
@@ -24,24 +30,23 @@ const NewPoopUnlockedScreen = ({ poopType, onAddToPoopdex, onGetFoodTip }: NewPo
       <h1 className="text-xl font-pixel text-foreground mb-2 text-center pixel-text-glow">
         NEW POOP UNLOCKED!
       </h1>
-      <h2 className="text-2xl font-pixel text-foreground mb-8 text-center pixel-text-glow">
+      <h2 className="text-2xl font-pixel text-foreground mb-2 text-center pixel-text-glow">
         {poop.name}
       </h2>
+      
+      {/* Rarity indicator */}
+      <div className="mb-4 px-4 py-1 border-2 border-accent bg-accent/20 rounded">
+        <span className="font-pixel text-sm text-accent uppercase">
+          {poop.rarity}
+        </span>
+      </div>
 
       {/* Poop character with celebration effects */}
       <div className="relative mb-8">
         <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center pixel-creature pulse-glow relative">
-          {/* Eyes */}
-          <div className="absolute top-6 left-8 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-6 right-8 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-background rounded-full"></div>
-          </div>
-          
-          {/* Happy mouth */}
-          <div className="absolute bottom-8 w-8 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-6 h-2 bg-background rounded-full"></div>
+          {/* Poop emoji */}
+          <div className="text-6xl">
+            {poop.emoji}
           </div>
           
           {/* Celebration sparkles */}
@@ -85,14 +90,17 @@ const NewPoopUnlockedScreen = ({ poopType, onAddToPoopdex, onGetFoodTip }: NewPo
       </div>
 
       {/* Food triggers */}
-      <div className="border-2 border-accent bg-accent/10 p-4 mb-8 w-full max-w-md">
+      <div className="border-2 border-accent bg-accent/10 p-4 mb-6 w-full max-w-md">
         <p className="text-sm font-pixel text-foreground text-center mb-2">
-          FOOD TRIGGERS: {poop.triggers}
+          UNLOCKED BY: {foods.join(' + ').toUpperCase()}
+        </p>
+        <p className="text-xs font-pixel text-muted-foreground text-center">
+          {poop.description}
         </p>
       </div>
 
       {/* Action buttons */}
-      <div className="space-y-4 w-full max-w-md">
+      <div className="space-y-4 w-full max-w-md mb-6">
         <Button
           onClick={onAddToPoopdex}
           className="w-full h-16 text-lg font-pixel pixel-button"
@@ -107,11 +115,6 @@ const NewPoopUnlockedScreen = ({ poopType, onAddToPoopdex, onGetFoodTip }: NewPo
           GET A FOOD TIP
         </Button>
       </div>
-
-      {/* Bottom hint text */}
-      <p className="text-xs font-pixel text-muted-foreground text-center mt-6 max-w-md">
-        {poop.description}
-      </p>
     </div>
   );
 };

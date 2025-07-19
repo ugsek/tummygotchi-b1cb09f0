@@ -1,18 +1,31 @@
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { POOP_DATABASE, PoopType } from "@/data/poopDatabase";
 
 interface PoopdexScreenProps {
   onBackToGame: () => void;
+  unlockedPoops?: string[];
 }
 
-const poopCollection = [
-  { id: 1, name: "Basic Blob", unlocked: true, weirdness: 2, triggers: "BASIC FOOD" },
-  { id: 2, name: "Crusty Wiggler", unlocked: true, weirdness: 4, triggers: "VEGGIE + CANDY" },
-  { id: 3, name: "Sparkle Swirl", unlocked: false, weirdness: 5, triggers: "???" },
-  { id: 4, name: "Rainbow Rush", unlocked: false, weirdness: 5, triggers: "???" },
-  // Add more poop types...
-];
+const PoopdexScreen = ({ onBackToGame, unlockedPoops = ['basic_blob'] }: PoopdexScreenProps) => {
+  const [selectedPoop, setSelectedPoop] = useState<PoopType | null>(
+    POOP_DATABASE.find(p => p.id === 'basic_blob') || null
+  );
 
-const PoopdexScreen = ({ onBackToGame }: PoopdexScreenProps) => {
+  const unlockedCount = unlockedPoops.length;
+  const totalCount = POOP_DATABASE.length;
+
+  const getRarityColor = (rarity: PoopType['rarity']) => {
+    switch (rarity) {
+      case 'common': return 'text-gray-400';
+      case 'uncommon': return 'text-green-400';
+      case 'rare': return 'text-blue-400';
+      case 'epic': return 'text-purple-400';
+      case 'legendary': return 'text-yellow-400';
+      default: return 'text-gray-400';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col p-6">
       {/* Header */}
@@ -21,32 +34,37 @@ const PoopdexScreen = ({ onBackToGame }: PoopdexScreenProps) => {
           POOPDEX
         </h1>
         <p className="text-sm font-pixel text-muted-foreground text-center mt-2">
-          5/20 COLLECTED
+          {unlockedCount}/{totalCount} COLLECTED
         </p>
       </div>
 
       {/* Collection grid */}
-      <div className="grid grid-cols-4 gap-4 mb-6 flex-1">
-        {[...Array(16)].map((_, index) => {
-          const poop = poopCollection[index];
-          const isUnlocked = poop?.unlocked || false;
+      <div className="grid grid-cols-4 gap-3 mb-6 flex-1 max-h-96 overflow-y-auto">
+        {POOP_DATABASE.map((poop, index) => {
+          const isUnlocked = unlockedPoops.includes(poop.id);
+          const isSelected = selectedPoop?.id === poop.id;
           
           return (
             <div
-              key={index}
+              key={poop.id}
               className={`
-                aspect-square border-2 flex flex-col items-center justify-center p-2
+                aspect-square border-2 flex flex-col items-center justify-center p-2 cursor-pointer
+                transition-all duration-200
                 ${isUnlocked 
-                  ? 'border-accent bg-accent/10' 
+                  ? 'border-accent bg-accent/10 hover:bg-accent/20' 
                   : 'border-muted bg-muted/10'
                 }
-                ${index === 0 ? 'border-4 border-accent shadow-lg' : ''}
+                ${isSelected ? 'border-4 border-accent shadow-lg scale-105' : ''}
               `}
+              onClick={() => isUnlocked && setSelectedPoop(poop)}
             >
               {isUnlocked ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="w-8 h-8 bg-primary rounded-full pixel-creature">
-                    <div className="text-xs">💩</div>
+                <div className="w-full h-full flex flex-col items-center justify-center">
+                  <div className="text-2xl mb-1">
+                    {poop.emoji}
+                  </div>
+                  <div className={`text-xs font-pixel ${getRarityColor(poop.rarity)}`}>
+                    {poop.rarity.charAt(0).toUpperCase()}
                   </div>
                 </div>
               ) : (
@@ -60,30 +78,40 @@ const PoopdexScreen = ({ onBackToGame }: PoopdexScreenProps) => {
       </div>
 
       {/* Selected poop info */}
-      <div className="border-2 border-accent bg-card p-4 mb-6">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center pixel-creature">
-            <span className="text-lg">💩</span>
+      {selectedPoop && (
+        <div className="border-2 border-accent bg-card p-4 mb-6">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-12 h-12 flex items-center justify-center text-3xl">
+              {selectedPoop.emoji}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <h2 className="text-lg font-pixel text-foreground">{selectedPoop.name}</h2>
+                <span className={`text-xs font-pixel px-2 py-1 border border-accent rounded ${getRarityColor(selectedPoop.rarity)}`}>
+                  {selectedPoop.rarity.toUpperCase()}
+                </span>
+              </div>
+              <p className="text-xs font-pixel text-muted-foreground mb-2">
+                {selectedPoop.description}
+              </p>
+              <p className="text-xs font-pixel text-accent">
+                {selectedPoop.unlockHint}
+              </p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-lg font-pixel text-foreground">BASIC BLOB</h2>
-            <p className="text-sm font-pixel text-muted-foreground">
-              FOOD TRIGGERS: BASIC FOOD
-            </p>
+          
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-pixel text-muted-foreground">WEIRDNESS:</span>
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <span key={i} className={`text-lg ${i < selectedPoop.weirdness ? 'text-accent' : 'text-muted'}`}>
+                  ★
+                </span>
+              ))}
+            </div>
           </div>
         </div>
-        
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-pixel text-muted-foreground">WEIRDNESS:</span>
-          <div className="flex">
-            {[...Array(5)].map((_, i) => (
-              <span key={i} className={`text-lg ${i < 2 ? 'text-accent' : 'text-muted'}`}>
-                ★
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Bottom navigation */}
       <div className="flex justify-center space-x-6 mb-4">

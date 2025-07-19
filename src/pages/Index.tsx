@@ -16,6 +16,7 @@ import FoodTipScreen from "@/components/FoodTipScreen";
 import PoopdexScreen from "@/components/PoopdexScreen";
 import BottomNavigation from "@/components/BottomNavigation";
 import FoodReactionScreen from "@/components/FoodReactionScreen";
+import { generatePoopFromCombination } from "@/lib/poopGenerator";
 
 type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'new-poop-unlocked' | 'food-tip' | 'poopdex';
 
@@ -31,6 +32,7 @@ const Index = () => {
   const [weirdnessLevel, setWeirdnessLevel] = useState<number>(0);
   const [daysLogged, setDaysLogged] = useState<number>(0);
   const [lastLoggedDate, setLastLoggedDate] = useState<string>('');
+  const [unlockedPoops, setUnlockedPoops] = useState<string[]>(['basic_blob']);
 
   const handleStart = () => {
     setGameState('goal-selection');
@@ -121,7 +123,15 @@ const Index = () => {
   };
 
   const handlePoopComplete = (poopType: string) => {
-    setLastPoopType(poopType);
+    // Generate new poop based on food combination
+    const newPoop = generatePoopFromCombination(selectedFoods, daysLogged, unlockedPoops);
+    setLastPoopType(newPoop.id);
+    
+    // Add to unlocked poops if it's new
+    if (!unlockedPoops.includes(newPoop.id)) {
+      setUnlockedPoops(prev => [...prev, newPoop.id]);
+    }
+    
     setWeirdnessLevel(0); // Reset weirdness after pooping
     setDaysLogged(0); // Reset days counter
     if (showFoodTipAfterPoop) {
@@ -249,7 +259,8 @@ const Index = () => {
       
       {gameState === 'new-poop-unlocked' && (
         <NewPoopUnlockedScreen 
-          poopType="crusty_wiggler"
+          poopType={lastPoopType}
+          foods={selectedFoods}
           onAddToPoopdex={handleAddToPoopdex}
           onGetFoodTip={handleGetFoodTip}
         />
@@ -266,7 +277,7 @@ const Index = () => {
       )}
       
       {gameState === 'poopdex' && (
-        <PoopdexScreen onBackToGame={handleBackToGame} />
+        <PoopdexScreen onBackToGame={handleBackToGame} unlockedPoops={unlockedPoops} />
       )}
       
       <BottomNavigation
