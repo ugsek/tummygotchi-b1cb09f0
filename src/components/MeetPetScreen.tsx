@@ -66,9 +66,9 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
         )}
       </div>
         
-      {/* HERO PET DISPLAY - 60-70% of screen */}
-      <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] max-h-[70vh]">
-        <div className="w-full aspect-square max-w-[85vw] max-h-[55vh] relative">
+      {/* HERO PET DISPLAY - Reduced to 70% size */}
+      <div className="flex-1 flex flex-col items-center justify-center min-h-[45vh] max-h-[50vh]">
+        <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative">
           <div className="w-full h-full bg-primary rounded-full relative pixel-creature pulse-glow">
             {/* Multiple eyes - responsive sizing */}
             <div className="absolute top-[20%] left-[20%] w-[10%] h-[10%] bg-accent rounded-full">

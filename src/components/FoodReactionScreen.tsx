@@ -95,9 +95,9 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
         </p>
       </div>
 
-      {/* HERO PET REACTION - 60-70% of screen */}
-      <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] max-h-[70vh]">
-        <div className="w-full aspect-square max-w-[85vw] max-h-[55vh] relative pixel-creature wiggle">
+      {/* HERO PET REACTION - Reduced to 70% size */}
+      <div className="flex-1 flex flex-col items-center justify-center min-h-[45vh] max-h-[50vh]">
+        <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative pixel-creature wiggle">
           <div className="w-full h-full bg-primary rounded-full relative">
             {/* Big reaction emoji - responsive positioning */}
             <div className="absolute -top-[15%] -right-[15%] text-[20%] leading-none">
