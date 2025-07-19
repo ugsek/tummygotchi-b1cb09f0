@@ -99,7 +99,10 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
             ))}
           </div>
         </div>
+      </div>
 
+      {/* Main content - add bottom padding to avoid button overlap */}
+      <div className="pb-24">
         {/* Status text */}
         <p className="font-pixel text-sm text-muted-foreground mb-6 text-center">
           Your belly buddy is wiggling happily!
@@ -108,12 +111,12 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
         </p>
       </div>
 
-      {/* Action buttons */}
-      <div className="space-y-4">
+      {/* Sticky Action Button */}
+      <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t border-accent/20">
         <Button 
           onClick={onFeedPet}
           disabled={weirdnessLevel >= 100}
-          className={`w-full pixel-button text-xl py-6 transition-all ${
+          className={`w-full max-w-md mx-auto block pixel-button text-xl py-6 transition-all ${
             weirdnessLevel >= 100 
               ? 'animate-pulse bg-gradient-to-r from-accent to-primary border-accent shadow-lg shadow-accent/50 opacity-50' 
               : 'hover:scale-105 transform'

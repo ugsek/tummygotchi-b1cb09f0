@@ -110,12 +110,15 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
         </p>
       </div>
 
-      <Button 
-        onClick={handleContinue}
-        className="pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
-      >
-        TIME TO FEED YOUR BELLY!
-      </Button>
+      {/* Sticky Action Button */}
+      <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t border-accent/20">
+        <Button 
+          onClick={handleContinue}
+          className="w-full max-w-md mx-auto block pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
+        >
+          TIME TO FEED YOUR BELLY!
+        </Button>
+      </div>
     </div>
   );
 };

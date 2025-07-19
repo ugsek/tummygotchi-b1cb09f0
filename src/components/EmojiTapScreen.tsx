@@ -117,7 +117,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col p-4">
+    <div className="min-h-screen bg-background flex flex-col p-4 pb-24">
       {/* Simple Header */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-pixel text-foreground mb-2 pixel-text-glow">
@@ -273,12 +273,12 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
         />
       </div>
 
-      {/* Big Confirm Button */}
-      <div className="max-w-md mx-auto w-full">
+      {/* Sticky Confirm Button */}
+      <div className="fixed bottom-20 left-0 right-0 p-4 bg-background/95 backdrop-blur-sm border-t border-accent/20">
         <Button
           onClick={handleConfirm}
           disabled={selectedFoods.length === 0 && !customInput.trim()}
-          className={`w-full h-16 text-xl font-pixel pixel-button transition-all ${
+          className={`w-full max-w-md mx-auto block h-16 text-xl font-pixel pixel-button transition-all ${
             selectedFoods.length > 0 || customInput.trim() 
               ? 'hover:scale-105 transform animate-pulse' 
               : ''
