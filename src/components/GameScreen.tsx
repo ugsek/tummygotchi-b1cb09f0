@@ -23,14 +23,13 @@ const GameScreen = ({ petName, weirdnessLevel, daysLogged, onFeedPet }: GameScre
           </div>
           <div className={`relative ${weirdnessLevel >= 100 ? 'animate-bounce' : ''}`}>
             <Progress 
-              value={weirdnessLevel} 
+              value={Math.min(weirdnessLevel, 100)} 
               className={`h-4 bg-muted border-2 border-accent ${
                 weirdnessLevel >= 100 
                   ? 'shadow-lg shadow-accent/50 border-accent animate-pulse' 
                   : ''
               }`}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-accent to-primary opacity-80 rounded"></div>
             
             {/* Sparkle effects when ready */}
             {weirdnessLevel >= 100 && (
