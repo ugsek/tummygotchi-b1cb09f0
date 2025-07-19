@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Camera } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface EmojiTapScreenProps {
   onConfirm: (foods: string[]) => void;
@@ -51,6 +52,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [showCamera, setShowCamera] = useState(false);
+  const { toast } = useToast();
 
   const toggleFood = (foodName: string) => {
     setSelectedFoods(prev => {
@@ -66,9 +68,29 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   const handleConfirm = () => {
     const allFoods = [...selectedFoods];
     if (customInput.trim()) {
-      allFoods.push(...customInput.split(',').map(f => f.trim()));
+      const customFoods = customInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
+      allFoods.push(...customFoods);
+      
+      // Show toast if multiple foods were parsed
+      if (customFoods.length > 1) {
+        toast({
+          title: `${customFoods.length} foods detected! 🍽️`,
+          description: `Parsed: ${customFoods.join(', ')}`,
+          duration: 2000,
+        });
+      }
     }
     onConfirm(allFoods);
+  };
+
+  // Helper function to count total foods including parsed custom input
+  const getTotalFoodCount = () => {
+    let count = selectedFoods.length;
+    if (customInput.trim()) {
+      const customFoods = customInput.split(',').map(f => f.trim()).filter(f => f.length > 0);
+      count += customFoods.length;
+    }
+    return count;
   };
 
   const startCamera = async () => {
@@ -157,9 +179,19 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
         <Input
           value={customInput}
           onChange={(e) => setCustomInput(e.target.value)}
-          placeholder="pizza, ice cream, etc."
+          placeholder="pie, cheese, tacos"
           className="font-pixel text-center bg-background border-2 border-muted focus:border-accent h-10 text-sm"
         />
+        {customInput.trim() && (
+          <div className="text-center mt-2">
+            <span className="font-pixel text-xs text-accent">
+              {customInput.includes(',') 
+                ? `Found ${customInput.split(',').map(f => f.trim()).filter(f => f.length > 0).length} foods!` 
+                : '1 food (use commas for multiple)'
+              }
+            </span>
+          </div>
+        )}
       </div>
         
       {/* Selected foods display - compact */}
@@ -286,7 +318,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
           }`}
         >
           {selectedFoods.length > 0 || customInput.trim() 
-            ? `FEED THE BLOB! (${selectedFoods.length + (customInput.trim() ? 1 : 0)} FOODS) 🍽️` 
+            ? `FEED THE BLOB! (${getTotalFoodCount()} FOODS) 🍽️` 
             : 'PICK SOMETHING YUMMY! 👆'
           }
         </Button>
