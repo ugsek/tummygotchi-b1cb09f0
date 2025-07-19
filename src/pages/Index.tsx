@@ -59,7 +59,7 @@ const Index = () => {
   };
 
   const handleFeedPet = () => {
-    setGameState('food-mode-selection');
+    setGameState('emoji-tap');
   };
 
   const handleSelectEmojiTap = () => {
@@ -171,7 +171,7 @@ const Index = () => {
   };
 
   const handleNavigateToFeed = () => {
-    setGameState('food-mode-selection');
+    setGameState('emoji-tap');
   };
 
   return (
@@ -220,7 +220,10 @@ const Index = () => {
       )}
       
       {gameState === 'emoji-tap' && (
-        <EmojiTapScreen onConfirm={handleEmojiConfirm} />
+        <EmojiTapScreen 
+          onConfirm={handleEmojiConfirm}
+          onPhotoTaken={handlePhotoTaken}
+        />
       )}
       
       {gameState === 'photo-mode' && (

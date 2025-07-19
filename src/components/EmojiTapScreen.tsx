@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Camera } from "lucide-react";
 
 interface EmojiTapScreenProps {
   onConfirm: (foods: string[]) => void;
+  onPhotoTaken?: (imageData: string) => void;
 }
 
 const foodCategories = [
@@ -103,10 +105,13 @@ const foodCategories = [
   }
 ];
 
-const EmojiTapScreen = ({ onConfirm }: EmojiTapScreenProps) => {
+const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
   const [selectedFoods, setSelectedFoods] = useState<string[]>([]);
   const [customInput, setCustomInput] = useState("");
   const [activeCategory, setActiveCategory] = useState(0);
+  const [showCamera, setShowCamera] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const toggleFood = (foodName: string) => {
     setSelectedFoods(prev => 
@@ -122,6 +127,51 @@ const EmojiTapScreen = ({ onConfirm }: EmojiTapScreenProps) => {
       allFoods.push(...customInput.split(',').map(f => f.trim()));
     }
     onConfirm(allFoods);
+  };
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setShowCamera(true);
+      }
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+    }
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
+      const context = canvas.getContext('2d');
+      
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      
+      if (context) {
+        context.drawImage(video, 0, 0);
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        
+        // Stop camera
+        const stream = video.srcObject as MediaStream;
+        stream?.getTracks().forEach(track => track.stop());
+        setShowCamera(false);
+        
+        if (onPhotoTaken) {
+          onPhotoTaken(imageData);
+        }
+      }
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream?.getTracks().forEach(track => track.stop());
+      setShowCamera(false);
+    }
   };
 
   return (
@@ -211,6 +261,25 @@ const EmojiTapScreen = ({ onConfirm }: EmojiTapScreenProps) => {
         />
       </div>
 
+      {/* Camera section */}
+      {onPhotoTaken && (
+        <div className="mb-6 max-w-md mx-auto w-full">
+          <div className="text-center">
+            <p className="text-sm font-pixel text-muted-foreground mb-3">
+              OR TAKE A PHOTO OF YOUR FOOD
+            </p>
+            <Button
+              onClick={startCamera}
+              className="w-full h-12 font-pixel pixel-button flex items-center justify-center gap-2"
+              variant="outline"
+            >
+              <Camera className="w-4 h-4" />
+              OPEN CAMERA
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Confirm button */}
       <div className="max-w-md mx-auto w-full">
         <Button
@@ -221,6 +290,37 @@ const EmojiTapScreen = ({ onConfirm }: EmojiTapScreenProps) => {
           CONFIRM FOODS ({selectedFoods.length + (customInput.trim() ? customInput.split(',').length : 0)})
         </Button>
       </div>
+
+      {/* Camera Modal */}
+      {showCamera && (
+        <div className="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-50">
+          <div className="w-full max-w-md p-4">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              className="w-full aspect-square object-cover rounded-lg mb-4"
+            />
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
+            
+            <div className="flex gap-4">
+              <Button
+                onClick={capturePhoto}
+                className="flex-1 h-12 font-pixel pixel-button"
+              >
+                CAPTURE
+              </Button>
+              <Button
+                onClick={stopCamera}
+                className="flex-1 h-12 font-pixel"
+                variant="outline"
+              >
+                CANCEL
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
