@@ -245,7 +245,7 @@ const GameScreen = ({
               : 'hover:scale-105 transform'
           }`}
         >
-          {weirdnessLevel >= 100 ? '💩 POOP TIME! GET READY! 💩' : 'FEED ME GOOD STUFF! 😋'}
+          {weirdnessLevel >= 100 ? '💩 POOP TIME! 💩' : 'FEED! 🍽️'}
         </Button>
       </div>
     </div>

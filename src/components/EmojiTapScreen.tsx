@@ -146,7 +146,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
           🍽️ WHAT DID YOU EAT? 🍽️
         </h1>
         <p className="text-sm font-pixel text-accent mb-3">
-          TAP UP TO 3 FOODS!
+          TAP 3 FOODS! 👆
         </p>
       </div>
 
@@ -164,7 +164,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
             variant="outline"
           >
             <Camera className="w-4 h-4" />
-            SNAP MY FOOD!
+            PHOTO 📸
           </Button>
         </div>
       )}
@@ -318,8 +318,8 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
           }`}
         >
           {selectedFoods.length > 0 || customInput.trim() 
-            ? `FEED THE BLOB! (${getTotalFoodCount()} FOODS) 🍽️` 
-            : 'PICK SOMETHING YUMMY! 👆'
+            ? `FEED! 🍽️` 
+            : 'PICK FOOD! 👆'
           }
         </Button>
       </div>
@@ -341,7 +341,7 @@ const EmojiTapScreen = ({ onConfirm, onPhotoTaken }: EmojiTapScreenProps) => {
                 onClick={capturePhoto}
                 className="flex-1 h-12 font-pixel pixel-button"
               >
-                GOT IT! 📸
+                SNAP! 📸
               </Button>
               <Button
                 onClick={stopCamera}

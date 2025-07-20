@@ -307,7 +307,7 @@ const FoodTipScreen = ({ petName, foods, userGoal, poopType = "unknown", onBackT
           onClick={onBackToGame}
           className="w-full max-w-md mx-auto block h-12 text-lg font-pixel pixel-button"
         >
-          BACK TO GAME
+          BACK! 🏠
         </Button>
       </div>
     </div>

@@ -48,7 +48,7 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
           onClick={onStart}
           className="pixel-button text-lg md:text-xl py-4 px-8 hover:scale-105 transform transition-all"
         >
-          WAKE UP MY BELLY BLOB!
+          START! 🌟
         </Button>
       </div>
 

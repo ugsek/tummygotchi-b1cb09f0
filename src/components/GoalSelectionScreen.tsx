@@ -70,10 +70,7 @@ const GoalSelectionScreen = ({ onGoalSelect, onSkip }: GoalSelectionScreenProps)
         </div>
         
         <h2 className="font-pixel text-xl md:text-2xl text-accent mb-2">
-          WHAT DO YOU WANT YOUR
-        </h2>
-        <h2 className="font-pixel text-xl md:text-2xl text-accent">
-          TUMMYGOTCHI TO HELP YOU WITH?
+          PICK YOUR GOAL! 🎯
         </h2>
       </div>
 
@@ -108,7 +105,7 @@ const GoalSelectionScreen = ({ onGoalSelect, onSkip }: GoalSelectionScreenProps)
           variant="outline"
           className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
         >
-          SKIP THE BORING STUFF!
+          SKIP! ⏩
         </Button>
       </div>
     </div>

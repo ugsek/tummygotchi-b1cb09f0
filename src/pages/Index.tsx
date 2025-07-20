@@ -18,11 +18,12 @@ import BottomNavigation from "@/components/BottomNavigation";
 import FoodReactionScreen from "@/components/FoodReactionScreen";
 import PlopScreen from "@/components/PlopScreen";
 import ChatScreen from "@/components/ChatScreen";
+import ChatIntroScreen from "@/components/ChatIntroScreen";
 import { generatePoopFromCombination } from "@/lib/poopGenerator";
 import { getPoopById } from "@/data/poopDatabase";
 import { calculateLevel, calculateExperienceGain } from "@/lib/levelingSystem";
 
-type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex' | 'chat';
+type GameState = 'welcome' | 'goal-selection' | 'blob-selection' | 'hatching' | 'meet-pet' | 'chat-intro' | 'game' | 'food-mode-selection' | 'emoji-tap' | 'photo-mode' | 'ai-analysis' | 'food-reaction' | 'ready-to-poop' | 'squeeze' | 'plop' | 'new-poop-unlocked' | 'food-tip' | 'poopdex' | 'chat';
 
 const Index = () => {
   const [gameState, setGameState] = useState<GameState>('welcome');
@@ -66,6 +67,14 @@ const Index = () => {
     if (customName) {
       setPetName(customName);
     }
+    setGameState('chat-intro');
+  };
+
+  const handleChatIntroComplete = () => {
+    setGameState('chat');
+  };
+
+  const handleSkipChatIntro = () => {
     setGameState('game');
   };
 
@@ -236,6 +245,14 @@ const Index = () => {
         <MeetPetScreen 
           petName={petName} 
           onContinue={handleContinueToGame} 
+        />
+      )}
+
+      {gameState === 'chat-intro' && (
+        <ChatIntroScreen 
+          petName={petName} 
+          onContinue={handleChatIntroComplete} 
+          onSkip={handleSkipChatIntro}
         />
       )}
       

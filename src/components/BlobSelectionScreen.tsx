@@ -51,16 +51,10 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       <div className="text-center mb-8">
         <h2 className="font-pixel text-xl md:text-2xl text-accent mb-4">
-          PICK THE ONE
+          PICK YOUR BLOB! 👆
         </h2>
-        <h2 className="font-pixel text-xl md:text-2xl text-accent mb-6">
-          THAT FEELS RIGHT
-        </h2>
-        <p className="font-pixel text-sm text-muted-foreground mb-2">
-          Your belly brewed 3
-        </p>
         <p className="font-pixel text-sm text-muted-foreground">
-          weird blobs overnight.
+          Which one looks coolest?
         </p>
       </div>
 
@@ -129,7 +123,7 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
             onClick={handleConfirm}
             className="pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
           >
-            THIS ONE'S GROSS! I LOVE IT!
+            PICK! 👍
           </Button>
         )}
         
@@ -138,7 +132,7 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
           variant="outline"
           className="pixel-button text-sm py-2 px-6 hover:scale-105 transform transition-all"
         >
-          JUST GIVE ME A RANDOM WEIRDO!
+          RANDOM! 🎲
         </Button>
       </div>
     </div>

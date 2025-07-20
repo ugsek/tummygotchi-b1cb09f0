@@ -33,7 +33,7 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
             variant="outline"
             className="mb-4 font-pixel text-sm"
           >
-            GIVE IT A WEIRDER NAME
+            RENAME 📝
           </Button>
         ) : (
           <div className="mb-4 max-w-xs mx-auto">
@@ -53,13 +53,13 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
                 variant="outline"
                 className="font-pixel text-xs flex-1"
               >
-                NEVERMIND
+                CANCEL ❌
               </Button>
               <Button
                 onClick={() => setIsCustomizing(false)}
                 className="font-pixel text-xs flex-1"
               >
-                THAT'S PERFECT!
+                OK! ✅
               </Button>
             </div>
           </div>
@@ -107,11 +107,8 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
         
         {/* Tagline */}
         <div className="mt-4 text-center px-4">
-          <p className="font-pixel text-sm text-muted-foreground mb-1">
-            Feed them weird stuff
-          </p>
           <p className="font-pixel text-sm text-muted-foreground">
-            and watch what pops out!
+            Feed me! See what happens! 🤪
           </p>
         </div>
       </div>
@@ -122,7 +119,7 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
           onClick={handleContinue}
           className="w-full max-w-md mx-auto block pixel-button text-lg py-4 px-8 hover:scale-105 transform transition-all"
         >
-          LET'S STUFF THIS BLOB! 🤤
+          CONTINUE! 🚀
         </Button>
       </div>
     </div>
