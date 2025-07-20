@@ -150,28 +150,28 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
       {/* HERO PET REACTION - Reduced to 70% size */}
       <div className="flex-1 flex flex-col items-center justify-center min-h-[45vh] max-h-[50vh]">
         <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative pixel-creature wiggle">
-          <div className="w-full h-full bg-primary rounded-full relative">
+          <div className="w-full h-full relative">
+            {/* Pet image with reaction */}
+            <img 
+              src="/lovable-uploads/8c2b14cf-ea3e-45c6-8dc8-2eb66e1cb515.png" 
+              alt="Gut Pet"
+              className="w-full h-full object-contain"
+              style={{
+                imageRendering: 'pixelated',
+                filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+              }}
+            />
+            
             {/* Big reaction emoji - responsive positioning */}
             <div className="absolute -top-[15%] -right-[15%] text-[20%] leading-none">
               {reaction}
             </div>
             
-            {/* Eyes - responsive sizing */}
-            <div className="absolute top-[20%] left-[20%] w-[10%] h-[10%] bg-accent rounded-full">
-              <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full"></div>
-            </div>
-            <div className="absolute top-[20%] right-[20%] w-[10%] h-[10%] bg-accent rounded-full">
-              <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full"></div>
-            </div>
-            
-            {/* Mouth - responsive sizing */}
-            <div className="absolute bottom-[25%] left-1/2 transform -translate-x-1/2 w-[15%] h-[8%] bg-background rounded-full"></div>
-            
-            {/* Sparkles - responsive distribution */}
+            {/* Floating sparkles around the pet */}
             {[...Array(6)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-[1.5%] h-[1.5%] bg-accent pulse-glow"
+                className="absolute w-[1.5%] h-[1.5%] bg-accent pulse-glow rounded-full"
                 style={{
                   left: `${20 + Math.random() * 60}%`,
                   top: `${20 + Math.random() * 60}%`,
