@@ -168,37 +168,26 @@ const GameScreen = ({
         {/* HERO PET DISPLAY - Centered */}
         <div className="flex flex-col items-center justify-center">
           <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative">
-            {/* Pet belly - Hero size reduced to 70% */}
-            <div className="w-full h-full bg-primary rounded-full relative pixel-creature blob-bounce">
-              {/* Multiple eyes looking around - responsive sizing */}
-              <div className="absolute top-[15%] left-[15%] w-[12%] h-[12%] bg-accent rounded-full">
-                <div className="absolute top-[20%] left-[20%] w-[40%] h-[40%] bg-background rounded-full wiggle"></div>
-              </div>
-              <div className="absolute top-[10%] right-[20%] w-[10%] h-[10%] bg-accent rounded-full">
-                <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full wiggle" style={{animationDelay: '0.5s'}}></div>
-              </div>
-              <div className="absolute top-[20%] right-[12%] w-[11%] h-[11%] bg-accent rounded-full">
-                <div className="absolute top-[15%] left-[15%] w-[45%] h-[45%] bg-background rounded-full wiggle" style={{animationDelay: '1s'}}></div>
-              </div>
+            {/* Pet image - animated gut creature */}
+            <div className="w-full h-full relative blob-bounce">
+              <img 
+                src="/lovable-uploads/c39bbd81-6489-4062-8049-3e00ebbe4983.png" 
+                alt="Gut Pet"
+                className="w-full h-full object-contain pixel-creature wiggle"
+                style={{
+                  imageRendering: 'pixelated',
+                  filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+                }}
+              />
               
-              {/* Multiple tentacles waving - responsive positioning */}
-              <div className="absolute -top-[6%] left-[35%] w-[4%] h-[20%] bg-primary rounded-full wiggle"></div>
-              <div className="absolute -top-[4%] right-[35%] w-[4%] h-[15%] bg-primary rounded-full wiggle" style={{animationDelay: '0.3s'}}></div>
-              <div className="absolute -left-[6%] top-[40%] w-[20%] h-[4%] bg-primary rounded-full wiggle" style={{animationDelay: '0.6s'}}></div>
-              <div className="absolute -right-[6%] top-[35%] w-[15%] h-[4%] bg-primary rounded-full wiggle" style={{animationDelay: '0.9s'}}></div>
-              <div className="absolute -bottom-[6%] left-[40%] w-[4%] h-[20%] bg-primary rounded-full wiggle" style={{animationDelay: '1.2s'}}></div>
-
-              {/* Happy expression - responsive sizing */}
-              <div className="absolute bottom-[20%] left-1/2 transform -translate-x-1/2 w-[20%] h-[10%] bg-background rounded-full"></div>
-              
-              {/* Sparkles - responsive distribution */}
-              {[...Array(25)].map((_, i) => (
+              {/* Floating sparkles around the pet */}
+              {[...Array(15)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-[1%] h-[1%] bg-accent pulse-glow"
+                  className="absolute w-[2%] h-[2%] bg-accent pulse-glow rounded-full"
                   style={{
-                    left: `${20 + Math.random() * 60}%`,
-                    top: `${20 + Math.random() * 60}%`,
+                    left: `${10 + Math.random() * 80}%`,
+                    top: `${10 + Math.random() * 80}%`,
                     animationDelay: `${Math.random() * 2}s`
                   }}
                 />
