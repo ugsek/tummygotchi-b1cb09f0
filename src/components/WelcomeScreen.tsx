@@ -24,12 +24,15 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
 
       {/* Main title */}
       <div className="mb-8 relative z-10">
-        <h1 className="font-pixel text-4xl md:text-6xl mb-4 pixel-text-glow">
-          TUMMY
-        </h1>
-        <h1 className="font-pixel text-4xl md:text-6xl mb-6 pixel-text-glow text-primary">
-          GOTCHI
-        </h1>
+        <img 
+          src="/lovable-uploads/28bc6de2-09c5-46a3-86c3-1703e86cdb99.png" 
+          alt="TUMMY GOTCHI"
+          className="max-w-[90vw] max-h-[200px] object-contain pixel-text-glow"
+          style={{
+            imageRendering: 'pixelated',
+            filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))'
+          }}
+        />
         
         <p className="font-pixel text-sm md:text-base text-accent mb-2">
           Welcome to your
