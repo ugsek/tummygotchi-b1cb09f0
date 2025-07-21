@@ -9,7 +9,7 @@
 @layer base {
   :root {
     /* 8-bit Game Color Palette - Dark theme matching visual references */
-    --background: 0 0 5; /* Dark navy background */
+    --background: 15 15 30; /* Dark navy background */
     --foreground: 186 255 97; /* Bright lime green for main text */
 
     /* Creature and game element colors */
@@ -24,7 +24,7 @@
     --popover: 15 15 30; /* Same as background */
     --popover-foreground: 186 255 97;
 
-    --primary: 120 100 255; /* Bright purple for primary buttons */
+    --primary: 199 56 233; /* Bright purple for primary buttons */
     --primary-foreground: 255 255 255; /* White text on primary */
 
     --secondary: 25 25 50; /* Dark purple for secondary elements */
@@ -39,8 +39,8 @@
     --destructive: 255 100 100; /* Bright red */
     --destructive-foreground: 255 255 255;
 
-    --border: 120 100 255; /* Purple borders */
-    --input: 25 25 50; /* Dark inputs */
+    --border: 199 56 233; /* Purple borders */
+    --input: 255 255 255; /* Dark inputs */
     --ring: 186 255 97; /* Green focus rings */
 
     --radius: 8px; /* Slightly more angular for pixel aesthetic */
