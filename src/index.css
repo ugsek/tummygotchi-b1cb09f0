@@ -9,7 +9,7 @@
 @layer base {
   :root {
     /* 8-bit Game Color Palette - Dark theme matching visual references */
-    --background: 000005; /* Dark navy background */
+    --background: 0 0 5; /* Dark navy background */
     --foreground: 186 255 97; /* Bright lime green for main text */
 
     /* Creature and game element colors */
