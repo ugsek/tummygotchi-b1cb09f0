@@ -77,8 +77,13 @@ const NewPoopUnlockedScreen = ({ poopType, foods, onAddToPoopdex, onGetFoodTip }
           {/* Main poop container */}
           <div className="relative w-40 h-40 bg-gradient-to-br from-primary/20 to-primary/10 rounded-full flex items-center justify-center border-4 border-accent shadow-2xl">
             {/* Poop emoji */}
-            <div className="text-8xl animate-bounce" style={{ animationDuration: '2s' }}>
-              {poop.emoji}
+            <div className="animate-bounce" style={{ animationDuration: '2s' }}>
+              <img 
+                src="/lovable-uploads/800d9c09-b805-4f69-a23d-e5ba3aae28f1.png" 
+                alt="Poop"
+                className="w-20 h-20 object-contain"
+                style={{ imageRendering: 'pixelated' }}
+              />
             </div>
           </div>
           
