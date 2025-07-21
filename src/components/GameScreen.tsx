@@ -137,6 +137,25 @@ const GameScreen = ({
 
       {/* Main content area - Center the pet */}
       <div className="flex-1 flex flex-col items-center justify-center p-4">
+        {/* Dynamic Pet Messages - Above Pet */}
+        <div className="mb-4 text-center px-4">
+          <div className={`
+            border-2 border-accent bg-accent/10 p-4 rounded-lg relative
+            ${showChatNudge ? 'animate-pulse border-primary bg-primary/10' : ''}
+          `}>
+            <p className="font-pixel text-sm text-foreground leading-relaxed">
+              {currentMessage}
+            </p>
+            {showChatNudge && (
+              <div className="absolute -top-2 -right-2">
+                <div className="w-4 h-4 bg-primary rounded-full animate-bounce flex items-center justify-center">
+                  <span className="text-xs">💬</span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* HERO PET DISPLAY - Centered */}
         <div className="flex flex-col items-center justify-center">
           <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative">
@@ -167,29 +186,10 @@ const GameScreen = ({
             </div>
           </div>
 
-          {/* Dynamic Pet Messages */}
-          <div className="mt-4 text-center px-4">
-            <div className={`
-              border-2 border-accent bg-accent/10 p-4 rounded-lg relative
-              ${showChatNudge ? 'animate-pulse border-primary bg-primary/10' : ''}
-            `}>
-              <p className="font-pixel text-sm text-foreground leading-relaxed">
-                {currentMessage}
-              </p>
-              {showChatNudge && (
-                <div className="absolute -top-2 -right-2">
-                  <div className="w-4 h-4 bg-primary rounded-full animate-bounce flex items-center justify-center">
-                    <span className="text-xs">💬</span>
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            {/* Stats Display - Simplified */}
-            <div className="flex justify-center gap-4 mt-3 text-xs font-pixel text-muted-foreground">
-              <span>Meals: {totalMealsEaten}</span>
-              <span>Days: {daysLogged}</span>
-            </div>
+          {/* Stats Display - Simplified */}
+          <div className="flex justify-center gap-4 mt-3 text-xs font-pixel text-muted-foreground">
+            <span>Meals: {totalMealsEaten}</span>
+            <span>Days: {daysLogged}</span>
           </div>
         </div>
       </div>
