@@ -78,31 +78,28 @@ const ChatScreen = ({ petName, userGoal, onBackToGame }: ChatScreenProps) => {
       {/* Pet character */}
       <div className="flex flex-col items-center mb-6">
         <div className="relative mb-4">
-          <div className="w-24 h-24 bg-primary rounded-full flex items-center justify-center pixel-creature pulse-glow relative">
-            {/* Eyes */}
-            <div className="absolute top-4 left-5 w-3 h-3 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-1 h-1 bg-background rounded-full"></div>
-            </div>
-            <div className="absolute top-4 right-5 w-3 h-3 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-1 h-1 bg-background rounded-full"></div>
-            </div>
+          <div className="w-24 h-24 relative">
+            <img 
+              src="/lovable-uploads/d5bcdd78-dbeb-40d0-a5e2-f3237ae15ccf.png" 
+              alt="Gut Pet"
+              className="w-full h-full object-contain pixel-creature pulse-glow"
+              style={{
+                imageRendering: 'pixelated',
+                filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+              }}
+            />
             
-            {/* Happy mouth */}
-            <div className="absolute bottom-4 w-4 h-2 bg-background rounded-full"></div>
-            
-            {/* Sparkles */}
+            {/* Floating sparkles around the pet */}
             {[...Array(4)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-1 h-1 text-accent font-pixel text-lg animate-pulse"
+                className="absolute w-1 h-1 bg-accent pulse-glow rounded-full"
                 style={{
                   left: `${-20 + Math.random() * 140}%`,
                   top: `${-20 + Math.random() * 140}%`,
                   animationDelay: `${Math.random() * 2}s`,
                 }}
-              >
-                +
-              </div>
+              />
             ))}
           </div>
         </div>

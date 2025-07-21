@@ -80,42 +80,14 @@ const GameScreen = ({
     <div className="min-h-screen bg-background flex flex-col">
       {/* Sticky Header with Level and Weirdness */}
       <div className="sticky top-0 bg-background/95 backdrop-blur-sm border-b border-accent/20 p-4 z-10">
-        {/* Level and Time Display */}
+        {/* Time Display Only */}
         <div className="mb-3">
-          <div className="flex justify-between items-center mb-2">
-            <div className="flex items-center gap-2">
-              <span className="font-pixel text-lg text-accent">LVL {level}</span>
-              <span className="font-pixel text-xs text-muted-foreground">
-                {getLevelTitle(level)}
-              </span>
-            </div>
-            <div className="text-right">
-              <div className="font-pixel text-xs text-accent">{currentTime}</div>
-              <div className="font-pixel text-xs text-muted-foreground capitalize">
-                {mealPeriod.replace('_', ' ')} time
-              </div>
+          <div className="text-center">
+            <div className="font-pixel text-lg text-accent">{currentTime}</div>
+            <div className="font-pixel text-sm text-muted-foreground capitalize">
+              {mealPeriod.replace('_', ' ')} time
             </div>
           </div>
-          <div className="flex justify-between items-center">
-            {level < 100 && (
-              <span className="font-pixel text-xs text-muted-foreground">
-                {expToNext} XP to next
-              </span>
-            )}
-          </div>
-          {level < 100 && (
-            <Progress 
-              value={levelProgress} 
-              className="h-2 bg-muted/50 border border-accent/30"
-            />
-          )}
-          {level >= 100 && (
-            <div className="text-center">
-              <span className="font-pixel text-xs text-accent animate-pulse">
-                ⭐ MAX LEVEL ACHIEVED! ⭐
-              </span>
-            </div>
-          )}
         </div>
         
         {/* Weirdness Meter */}
@@ -170,15 +142,15 @@ const GameScreen = ({
           <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative">
             {/* Pet image - animated gut creature */}
             <div className="w-full h-full relative blob-bounce">
-              <img 
-                src="/lovable-uploads/c39bbd81-6489-4062-8049-3e00ebbe4983.png" 
-                alt="Gut Pet"
-                className="w-full h-full object-contain pixel-creature wiggle"
-                style={{
-                  imageRendering: 'pixelated',
-                  filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
-                }}
-              />
+            <img 
+              src="/lovable-uploads/d5bcdd78-dbeb-40d0-a5e2-f3237ae15ccf.png" 
+              alt="Gut Pet"
+              className="w-full h-full object-contain pixel-creature wiggle"
+              style={{
+                imageRendering: 'pixelated',
+                filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+              }}
+            />
               
               {/* Floating sparkles around the pet */}
               {[...Array(15)].map((_, i) => (
@@ -213,10 +185,9 @@ const GameScreen = ({
               )}
             </div>
             
-            {/* Stats Display */}
+            {/* Stats Display - Simplified */}
             <div className="flex justify-center gap-4 mt-3 text-xs font-pixel text-muted-foreground">
               <span>Meals: {totalMealsEaten}</span>
-              <span>XP: {experiencePoints}</span>
               <span>Days: {daysLogged}</span>
             </div>
           </div>

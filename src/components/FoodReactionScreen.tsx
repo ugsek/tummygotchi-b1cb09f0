@@ -153,7 +153,7 @@ const FoodReactionScreen = ({ foods, userGoal, currentWeirdness, onContinue }: F
           <div className="w-full h-full relative">
             {/* Pet image with reaction */}
             <img 
-              src="/lovable-uploads/8c2b14cf-ea3e-45c6-8dc8-2eb66e1cb515.png" 
+              src="/lovable-uploads/d5bcdd78-dbeb-40d0-a5e2-f3237ae15ccf.png" 
               alt="Gut Pet"
               className="w-full h-full object-contain"
               style={{

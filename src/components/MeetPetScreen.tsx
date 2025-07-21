@@ -69,32 +69,22 @@ const MeetPetScreen = ({ petName, onContinue }: MeetPetScreenProps) => {
       {/* HERO PET DISPLAY - Reduced to 70% size */}
       <div className="flex-1 flex flex-col items-center justify-center min-h-[45vh] max-h-[50vh]">
         <div className="w-full aspect-square max-w-[60vw] max-h-[42vh] relative">
-          <div className="w-full h-full bg-primary rounded-full relative pixel-creature pulse-glow">
-            {/* Multiple eyes - responsive sizing */}
-            <div className="absolute top-[20%] left-[20%] w-[10%] h-[10%] bg-accent rounded-full">
-              <div className="absolute top-[15%] left-[15%] w-[50%] h-[50%] bg-background rounded-full"></div>
-            </div>
-            <div className="absolute top-[15%] right-[25%] w-[8%] h-[8%] bg-accent rounded-full">
-              <div className="absolute top-[15%] left-[15%] w-[40%] h-[40%] bg-background rounded-full"></div>
-            </div>
-            <div className="absolute top-[25%] right-[15%] w-[9%] h-[9%] bg-accent rounded-full">
-              <div className="absolute top-[15%] left-[15%] w-[40%] h-[40%] bg-background rounded-full"></div>
-            </div>
+          <div className="w-full h-full relative">
+            <img 
+              src="/lovable-uploads/d5bcdd78-dbeb-40d0-a5e2-f3237ae15ccf.png" 
+              alt="Gut Pet"
+              className="w-full h-full object-contain pixel-creature pulse-glow"
+              style={{
+                imageRendering: 'pixelated',
+                filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+              }}
+            />
             
-            {/* Tentacles - responsive */}
-            <div className="absolute -top-[5%] left-[30%] w-[3%] h-[15%] bg-primary rounded-full wiggle"></div>
-            <div className="absolute -top-[3%] right-[30%] w-[3%] h-[12%] bg-primary rounded-full wiggle" style={{animationDelay: '0.3s'}}></div>
-            <div className="absolute -left-[5%] top-[35%] w-[15%] h-[3%] bg-primary rounded-full wiggle" style={{animationDelay: '0.6s'}}></div>
-            <div className="absolute -right-[5%] top-[30%] w-[12%] h-[3%] bg-primary rounded-full wiggle" style={{animationDelay: '0.9s'}}></div>
-
-            {/* Happy mouth - responsive */}
-            <div className="absolute bottom-[25%] left-1/2 transform -translate-x-1/2 w-[15%] h-[8%] bg-background rounded-full"></div>
-            
-            {/* Sparkles - responsive */}
+            {/* Floating sparkles around the pet */}
             {[...Array(20)].map((_, i) => (
               <div
                 key={i}
-                className="absolute w-[1.5%] h-[1.5%] bg-accent pulse-glow"
+                className="absolute w-[1.5%] h-[1.5%] bg-accent pulse-glow rounded-full"
                 style={{
                   left: `${20 + Math.random() * 60}%`,
                   top: `${20 + Math.random() * 60}%`,

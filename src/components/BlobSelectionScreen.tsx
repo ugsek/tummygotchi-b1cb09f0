@@ -60,60 +60,76 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
 
       {/* Blob pods */}
       <div className="flex flex-col md:flex-row gap-6 mb-8">
-        {blobs.map((blob) => (
-          <div
-            key={blob.id}
-            className={`cursor-pointer transform transition-all duration-300 ${
-              selectedBlob === blob.id ? 'scale-110' : 'hover:scale-105'
-            }`}
-            onClick={() => handleBlobClick(blob.id)}
-          >
-            <div className="relative">
-              {/* Pod container */}
-              <div className={`w-24 h-32 ${blob.color} rounded-full relative overflow-hidden pixel-creature ${
-                selectedBlob === blob.id ? 'pulse-glow' : ''
-              }`}>
-                {/* Pattern effects */}
-                {blob.pattern === 'sparkly' && (
-                  [...Array(12)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-1 h-1 bg-accent pulse-glow"
-                      style={{
-                        left: `${20 + Math.random() * 60}%`,
-                        top: `${20 + Math.random() * 60}%`,
-                        animationDelay: `${Math.random() * 2}s`
-                      }}
-                    />
-                  ))
-                )}
-                
-                {blob.pattern === 'slimy' && (
-                  <div className="absolute inset-2 bg-gradient-to-b from-purple-400 to-purple-800 rounded-full opacity-70"></div>
-                )}
-                
-                {blob.pattern === 'fuzzy' && (
-                  [...Array(8)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-2 h-2 bg-blue-400 rounded-full wiggle"
-                      style={{
-                        left: `${Math.random() * 80 + 10}%`,
-                        top: `${Math.random() * 80 + 10}%`,
-                        animationDelay: `${Math.random() * 1}s`
-                      }}
-                    />
-                  ))
-                )}
-
-                {/* Selection indicator */}
-                {selectedBlob === blob.id && (
-                  <div className="absolute -inset-2 border-4 border-accent rounded-full animate-pulse"></div>
-                )}
-              </div>
-            </div>
+        <div
+          className={`cursor-pointer transform transition-all duration-300 ${
+            selectedBlob === 'sploosh' ? 'scale-110' : 'hover:scale-105'
+          }`}
+          onClick={() => handleBlobClick('sploosh')}
+        >
+          <div className="relative">
+            <img 
+              src="/lovable-uploads/3a2d946e-5d45-4a18-be38-1292ce12eb11.png" 
+              alt="SPLOOSH Pod"
+              className="w-24 h-32 object-contain pixel-creature"
+              style={{
+                imageRendering: 'pixelated',
+                filter: selectedBlob === 'sploosh' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none'
+              }}
+            />
+            {/* Selection indicator */}
+            {selectedBlob === 'sploosh' && (
+              <div className="absolute -inset-2 border-4 border-accent rounded-full animate-pulse"></div>
+            )}
           </div>
-        ))}
+        </div>
+
+        <div
+          className={`cursor-pointer transform transition-all duration-300 ${
+            selectedBlob === 'squirm' ? 'scale-110' : 'hover:scale-105'
+          }`}
+          onClick={() => handleBlobClick('squirm')}
+        >
+          <div className="relative">
+            <img 
+              src="/lovable-uploads/3a2d946e-5d45-4a18-be38-1292ce12eb11.png" 
+              alt="SQUIRM Pod"
+              className="w-24 h-32 object-contain pixel-creature"
+              style={{
+                imageRendering: 'pixelated',
+                filter: selectedBlob === 'squirm' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none',
+                transform: 'scaleX(-1)' // Flip horizontally for variation
+              }}
+            />
+            {/* Selection indicator */}
+            {selectedBlob === 'squirm' && (
+              <div className="absolute -inset-2 border-4 border-accent rounded-full animate-pulse"></div>
+            )}
+          </div>
+        </div>
+
+        <div
+          className={`cursor-pointer transform transition-all duration-300 ${
+            selectedBlob === 'fizz' ? 'scale-110' : 'hover:scale-105'
+          }`}
+          onClick={() => handleBlobClick('fizz')}
+        >
+          <div className="relative">
+            <img 
+              src="/lovable-uploads/3a2d946e-5d45-4a18-be38-1292ce12eb11.png" 
+              alt="FIZZ Pod"
+              className="w-24 h-32 object-contain pixel-creature"
+              style={{
+                imageRendering: 'pixelated',
+                filter: selectedBlob === 'fizz' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none',
+                transform: 'rotate(10deg)' // Slight rotation for variation
+              }}
+            />
+            {/* Selection indicator */}
+            {selectedBlob === 'fizz' && (
+              <div className="absolute -inset-2 border-4 border-accent rounded-full animate-pulse"></div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Buttons */}

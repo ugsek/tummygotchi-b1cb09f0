@@ -87,32 +87,22 @@ const HatchingScreen = ({ blobName, onHatchingComplete }: HatchingScreenProps) =
             <div className="absolute bottom-4 left-8 w-14 h-8 bg-primary rounded-lg transform rotate-12 opacity-50"></div>
             
             {/* New creature emerging */}
-            <div className="w-32 h-32 mx-auto bg-primary rounded-full relative pixel-creature pulse-glow">
-              {/* Multiple eyes */}
-              <div className="absolute top-6 left-6 w-6 h-6 bg-accent rounded-full">
-                <div className="absolute top-1 left-1 w-3 h-3 bg-background rounded-full"></div>
-              </div>
-              <div className="absolute top-4 right-8 w-4 h-4 bg-accent rounded-full">
-                <div className="absolute top-0.5 left-0.5 w-2 h-2 bg-background rounded-full"></div>
-              </div>
-              <div className="absolute top-8 right-4 w-5 h-5 bg-accent rounded-full">
-                <div className="absolute top-1 left-1 w-2 h-2 bg-background rounded-full"></div>
-              </div>
+            <div className="w-32 h-32 mx-auto relative">
+              <img 
+                src="/lovable-uploads/d5bcdd78-dbeb-40d0-a5e2-f3237ae15ccf.png" 
+                alt="Gut Pet"
+                className="w-full h-full object-contain pixel-creature pulse-glow"
+                style={{
+                  imageRendering: 'pixelated',
+                  filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+                }}
+              />
               
-              {/* Multiple tentacles */}
-              <div className="absolute -top-2 left-12 w-2 h-8 bg-primary rounded-full wiggle"></div>
-              <div className="absolute -top-1 right-12 w-2 h-6 bg-primary rounded-full wiggle" style={{animationDelay: '0.3s'}}></div>
-              <div className="absolute -left-2 top-16 w-8 h-2 bg-primary rounded-full wiggle" style={{animationDelay: '0.6s'}}></div>
-              <div className="absolute -right-2 top-12 w-6 h-2 bg-primary rounded-full wiggle" style={{animationDelay: '0.9s'}}></div>
-
-              {/* Mouth */}
-              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-8 h-4 bg-background rounded-full"></div>
-              
-              {/* Sparkles everywhere */}
+              {/* Floating sparkles around the pet */}
               {[...Array(25)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-1 h-1 bg-accent pulse-glow"
+                  className="absolute w-1 h-1 bg-accent pulse-glow rounded-full"
                   style={{
                     left: `${Math.random() * 120 - 10}%`,
                     top: `${Math.random() * 120 - 10}%`,

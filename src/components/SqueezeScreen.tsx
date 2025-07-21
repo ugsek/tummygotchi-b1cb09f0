@@ -43,40 +43,22 @@ const SqueezeScreen = ({ petName, onPoopComplete }: SqueezeScreenProps) => {
       <div className="relative mb-8">
         <div 
           className={`
-            w-48 h-48 bg-primary rounded-full flex items-center justify-center pixel-creature cursor-pointer
+            w-48 h-48 flex items-center justify-center pixel-creature cursor-pointer relative
             transition-transform duration-200
             ${isSqueezing ? 'scale-95' : 'scale-100'}
             ${squeezeProgress > 50 ? 'animate-wiggle' : ''}
           `}
           onClick={handleSqueeze}
         >
-          {/* Multiple eyes with varying expressions */}
-          <div className="absolute top-8 left-12 w-6 h-6 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-3 h-3 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-8 right-12 w-6 h-6 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-3 h-3 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-12 left-8 w-6 h-6 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-3 h-3 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-12 right-8 w-6 h-6 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-3 h-3 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute bottom-16 left-16 w-6 h-6 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-3 h-3 bg-background rounded-full"></div>
-          </div>
-          
-          {/* Strained/concentrated expression */}
-          <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2">
-            {squeezeProgress > 50 ? (
-              <div className="w-8 h-6 bg-accent rounded flex items-center justify-center">
-                <div className="text-background font-bold">😤</div>
-              </div>
-            ) : (
-              <div className="w-8 h-4 bg-background rounded-full"></div>
-            )}
-          </div>
+          <img 
+            src="/lovable-uploads/4feabc96-2bba-418b-9aaf-178a84075a9e.png" 
+            alt="Squeeze Pet"
+            className="w-full h-full object-contain"
+            style={{
+              imageRendering: 'pixelated',
+              filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+            }}
+          />
           
           {/* Sparkles increase with progress */}
           {[...Array(Math.floor(squeezeProgress / 10))].map((_, i) => (
@@ -128,7 +110,14 @@ const SqueezeScreen = ({ petName, onPoopComplete }: SqueezeScreenProps) => {
       {/* Poop animation */}
       {showPoop && (
         <div className="absolute bottom-20 flex flex-col items-center animate-bounce">
-          <div className="text-6xl mb-2">💩</div>
+          <img 
+            src="/lovable-uploads/37788816-4d27-4946-b5e7-faeb286c9f4e.png" 
+            alt="Poop"
+            className="w-16 h-16 object-contain mb-2"
+            style={{
+              imageRendering: 'pixelated'
+            }}
+          />
           <div className="text-xl font-pixel text-accent animate-pulse">PLOP!</div>
         </div>
       )}

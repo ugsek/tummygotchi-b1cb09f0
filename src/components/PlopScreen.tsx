@@ -47,23 +47,16 @@ const PlopScreen = ({ petName, poopEmoji, onPlopComplete }: PlopScreenProps) => 
 
       {/* Pet character - post-poop relief */}
       <div className="relative z-10 mb-8">
-        <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center pixel-creature animate-bounce relative">
-          {/* Multiple relieved eyes */}
-          <div className="absolute top-6 left-8 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-6 right-8 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-8 left-6 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-background rounded-full"></div>
-          </div>
-          <div className="absolute top-8 right-6 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
-            <div className="w-2 h-2 bg-background rounded-full"></div>
-          </div>
-          
-          {/* Happy relieved mouth */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-6 h-3 bg-accent rounded-full"></div>
+        <div className="w-32 h-32 relative animate-bounce">
+          <img 
+            src="/lovable-uploads/d5bcdd78-dbeb-40d0-a5e2-f3237ae15ccf.png" 
+            alt="Gut Pet"
+            className="w-full h-full object-contain pixel-creature"
+            style={{
+              imageRendering: 'pixelated',
+              filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.3))'
+            }}
+          />
           
           {/* Relief sparkles */}
           {[...Array(12)].map((_, i) => (
@@ -81,10 +74,17 @@ const PlopScreen = ({ petName, poopEmoji, onPlopComplete }: PlopScreenProps) => 
         </div>
       </div>
 
-      {/* Large poop emoji with splash effect */}
+      {/* Large poop with splash effect */}
       <div className="relative z-10 flex flex-col items-center">
-        <div className="text-8xl animate-bounce mb-4" style={{ animationDelay: '0.5s' }}>
-          {poopEmoji}
+        <div className="animate-bounce mb-4" style={{ animationDelay: '0.5s' }}>
+          <img 
+            src="/lovable-uploads/37788816-4d27-4946-b5e7-faeb286c9f4e.png" 
+            alt="Poop"
+            className="w-24 h-24 object-contain"
+            style={{
+              imageRendering: 'pixelated'
+            }}
+          />
         </div>
         
         {/* Splash effects around poop */}
