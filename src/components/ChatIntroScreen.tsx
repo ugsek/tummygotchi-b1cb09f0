@@ -11,30 +11,15 @@ const ChatIntroScreen = ({ petName, onContinue, onSkip }: ChatIntroScreenProps) 
     <div className="min-h-screen flex flex-col items-center justify-center bg-background p-4">
       {/* Pet character with speech bubble */}
       <div className="mb-8 text-center relative">
-        <div className="w-32 h-32 mx-auto mb-6 pixel-creature wiggle">
-          <div className="w-full h-full bg-primary rounded-full relative">
-            {/* Eyes */}
-            <div className="absolute top-6 left-6 w-6 h-6 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-3 h-3 bg-background rounded-full"></div>
-            </div>
-            <div className="absolute top-6 right-6 w-6 h-6 bg-accent rounded-full">
-              <div className="absolute top-1 left-1 w-3 h-3 bg-background rounded-full"></div>
-            </div>
-            {/* Mouth */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-8 h-4 bg-background rounded-full"></div>
-            {/* Sparkles */}
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-1 h-1 bg-accent pulse-glow"
-                style={{
-                  left: `${20 + Math.random() * 60}%`,
-                  top: `${20 + Math.random() * 60}%`,
-                  animationDelay: `${Math.random() * 2}s`
-                }}
-              />
-            ))}
-          </div>
+        <div className="mx-auto mb-6">
+          <img 
+            src="/lovable-uploads/e4729f7e-23b7-48e8-ac13-90b522f52267.png" 
+            alt={petName}
+            className="w-32 h-32 mx-auto pixel-creature wiggle"
+            style={{
+              imageRendering: 'pixelated'
+            }}
+          />
         </div>
 
         {/* Speech bubble */}
