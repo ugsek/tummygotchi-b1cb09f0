@@ -63,7 +63,7 @@ const GameScreen = ({
       if (shouldNudge) {
         setCurrentMessage(generateChatNudgeMessage(petName));
       } else {
-        setCurrentMessage(generateFoodBasedMessage(lastEatenFoods, petName, totalMealsEaten));
+        setCurrentMessage(generateFoodBasedMessage(lastEatenFoods, petName, totalMealsEaten, daysLogged));
       }
     };
 
