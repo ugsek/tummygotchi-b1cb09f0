@@ -68,7 +68,7 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
         >
           <div className="relative">
             <img 
-              src="/lovable-uploads/3a2d946e-5d45-4a18-be38-1292ce12eb11.png" 
+              src="/lovable-uploads/348f1b9b-b0ea-4032-b938-51144efa439f.png" 
               alt="SPLOOSH Pod"
               className="w-24 h-32 object-contain pixel-creature"
               style={{
@@ -91,13 +91,12 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
         >
           <div className="relative">
             <img 
-              src="/lovable-uploads/3a2d946e-5d45-4a18-be38-1292ce12eb11.png" 
+              src="/lovable-uploads/a20dc9a0-e167-4455-8d3e-16af01edcc6a.png" 
               alt="SQUIRM Pod"
               className="w-24 h-32 object-contain pixel-creature"
               style={{
                 imageRendering: 'pixelated',
-                filter: selectedBlob === 'squirm' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none',
-                transform: 'scaleX(-1)' // Flip horizontally for variation
+                filter: selectedBlob === 'squirm' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none'
               }}
             />
             {/* Selection indicator */}
@@ -115,13 +114,12 @@ const BlobSelectionScreen = ({ onBlobSelect, onSkip }: BlobSelectionScreenProps)
         >
           <div className="relative">
             <img 
-              src="/lovable-uploads/3a2d946e-5d45-4a18-be38-1292ce12eb11.png" 
+              src="/lovable-uploads/bf097d19-fa75-4499-b1fa-be1d95768e51.png" 
               alt="FIZZ Pod"
               className="w-24 h-32 object-contain pixel-creature"
               style={{
                 imageRendering: 'pixelated',
-                filter: selectedBlob === 'fizz' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none',
-                transform: 'rotate(10deg)' // Slight rotation for variation
+                filter: selectedBlob === 'fizz' ? 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))' : 'none'
               }}
             />
             {/* Selection indicator */}
