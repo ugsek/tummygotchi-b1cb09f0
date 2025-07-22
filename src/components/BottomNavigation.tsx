@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Home, Book, MessageCircle } from "lucide-react";
+import { UtensilsCrossed, Book, MessageCircle } from "lucide-react";
 
 interface BottomNavigationProps {
   onNavigateToHome: () => void;
@@ -45,7 +45,7 @@ const BottomNavigation = ({
           onClick={onNavigateToHome}
           className="flex items-center justify-center h-12 w-12 rounded-xl"
         >
-          <Home className="h-5 w-5" />
+          <UtensilsCrossed className="h-5 w-5" />
         </Button>
         
         <Button
