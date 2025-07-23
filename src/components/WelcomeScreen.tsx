@@ -34,14 +34,8 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
           }}
         />
         
-        <p className="font-pixel text-sm md:text-base text-accent mb-2">
-          Welcome to your
-        </p>
-        <p className="font-pixel text-sm md:text-base text-accent">
-          weird belly
-        </p>
-        <p className="font-pixel text-sm md:text-base text-accent">
-          adventure!
+        <p className="font-pixel text-sm md:text-base text-accent mt-4">
+          Eat better. Evolve weirder. One poop at a time.
         </p>
       </div>
 
@@ -55,10 +49,6 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         </Button>
       </div>
 
-      {/* Tagline */}
-      <p className="font-pixel text-xs text-muted-foreground">
-        Eat better. Evolve weirder. One poop at a time.
-      </p>
     </div>
   );
 };
