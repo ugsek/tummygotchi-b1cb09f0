@@ -27,7 +27,7 @@ const WelcomeScreen = ({ onStart }: WelcomeScreenProps) => {
         <img 
           src="/lovable-uploads/28bc6de2-09c5-46a3-86c3-1703e86cdb99.png" 
           alt="TUMMY GOTCHI"
-          className="max-w-[90vw] max-h-[200px] object-contain pixel-text-glow"
+          className="max-w-[90vw] max-h-[200px] object-contain pixel-text-glow mx-auto"
           style={{
             imageRendering: 'pixelated',
             filter: 'drop-shadow(0 0 20px hsl(var(--accent) / 0.6))'
