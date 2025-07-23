@@ -59,7 +59,7 @@ const checkUnlockConditions = (
 ): boolean => {
   const { requiredFoods, forbiddenFoods, healthyRatio, minDays } = poop.unlockConditions;
   
-  // Check required foods
+  // Check required foods - more flexible matching for better user experience
   if (requiredFoods.length > 0) {
     const hasRequiredFoods = requiredFoods.every(required =>
       combination.foods.some(userFood => foodMatches(userFood, [required]))
@@ -80,7 +80,7 @@ const checkUnlockConditions = (
     if (combination.healthyRatio < healthyRatio) return false;
   }
   
-  // Check minimum days
+  // Check minimum days (streak requirement)
   if (minDays !== undefined) {
     if (combination.daysLogged < minDays) return false;
   }
